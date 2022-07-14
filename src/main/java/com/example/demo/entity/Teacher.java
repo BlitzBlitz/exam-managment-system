@@ -2,11 +2,11 @@ package com.example.demo.entity;
 
 public class Teacher {
     private int id;
-   private String email;
-   private String password;
-   private String name;
-   private String lastname;
-   private String phoneNumber;
+    private String email;
+    private String password;
+    private String name;
+    private String lastname;
+    private String phoneNumber;
 
     public Teacher( String email, String password, String name, String lastname, String phoneNumber) {
 

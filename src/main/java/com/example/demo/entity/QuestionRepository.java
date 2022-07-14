@@ -20,6 +20,15 @@ public class QuestionRepository {
     public static void insertQuestion(Question question) throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
         statement.execute("INSERT INTO question(title, answer, exam_id) VALUES ( '"  + question.getTitle() + "' , "+ question.getAnswer() +" , " + question.getExamId() + " )");
+        ResultSet resultSet = statement.executeQuery("SELECT id from question ORDER BY id DESC LIMIT 1");
+        int id = -1;
+        id = resultSet.getInt("id");
+
+        if(id != -1){
+            question.setId(id);
+        }else {
+            throw new SQLException("Question insertion went wrong!");
+        }
         statement.close();
     }
     public static ArrayList<Question> getAllQuestionsForExam(int examId) throws SQLException{

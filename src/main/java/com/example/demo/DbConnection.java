@@ -13,12 +13,19 @@ public class DbConnection {
             CourseRepository.createCourseTable();
             ExamRepository.createExamTable();
             QuestionRepository.createQuestionTable();
+            StudentRepository.createStudentTable();
 
+            Teacher teacher = new Teacher("1244413","1","1","1", "1");
+            TeacherRepository.insertTeacher(teacher);
+            Course course = new Course("English11", teacher.getId());
+            CourseRepository.insertCourse(course);
+            Exam exam = new Exam("English01-mid", course.getId());
+            ExamRepository.insertExam(exam);
+            Question question = new Question("The English language has 23 letters", false, exam.getId());
+            QuestionRepository.insertQuestion(question);
+//            Student student = new Student("122544445533","1","1","1", "1");
+//            StudentRepository.insertStudent(student);
 
-            TeacherRepository.insertTeacher(new Teacher("1","1","1","1", "1"));
-            CourseRepository.insertCourse(new Course("English101", 1));
-            ExamRepository.insertExam(new Exam("English101-mid", 1));
-            QuestionRepository.insertQuestion(new Question("The English language has 23 letters", false, 1));
         }catch (SQLException e){
             System.out.println(e.getMessage());
         }
