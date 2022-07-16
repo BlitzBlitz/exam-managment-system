@@ -5,6 +5,7 @@ import com.example.demo.DbConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class TeacherRepository {
     public static void createTeacherTable() throws SQLException {
@@ -32,5 +33,44 @@ public class TeacherRepository {
             throw new SQLException("Student insertion went wrong!");
         }
         statement.close();
+    }
+    public static ArrayList<Teacher> getAllTeachers() throws SQLException {
+        Statement statement = DbConnection.getConnection().createStatement();
+        ResultSet results = statement.executeQuery("SELECT * FROM teacher");
+        ArrayList<Teacher> teachers = new ArrayList<>();
+        while (results.next()){
+            Teacher teacher = new Teacher();
+            teacher.setId(results.getInt("id"));
+            teacher.setEmail(results.getString("email"));
+            teacher.setPassword(results.getString("password"));
+            teacher.setName(results.getString("name"));
+            teacher.setLastname(results.getString("lastname"));
+            teacher.setPhoneNumber(results.getString("phone"));
+
+            teachers.add(teacher);
+        }
+        statement.close();
+        return teachers;
+    }
+
+    public static Teacher getTeacherByEmail(String userEmail) {
+        Teacher teacher = new Teacher();
+        try {
+            Statement statement = DbConnection.getConnection().createStatement();
+            ResultSet results = statement.executeQuery("SELECT * FROM teacher WHERE email = '"+userEmail+"'");
+
+            while (results.next()){
+                teacher.setId(results.getInt("id"));
+                teacher.setEmail(results.getString("email"));
+                teacher.setPassword(results.getString("password"));
+                teacher.setName(results.getString("name"));
+                teacher.setLastname(results.getString("lastname"));
+                teacher.setPhoneNumber(results.getString("phone"));
+            }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+        return teacher;
     }
 }

@@ -8,7 +8,10 @@ public class Teacher {
     private String lastname;
     private String phoneNumber;
 
-    public Teacher( String email, String password, String name, String lastname, String phoneNumber) {
+    public Teacher() {
+    }
+
+    public Teacher(String email, String password, String name, String lastname, String phoneNumber) {
 
         this.email = email;
         this.password = password;

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane managed="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.AdminController">
+   <center>
+      <GridPane maxHeight="499.0" maxWidth="1.7976931348623157E308" minHeight="350.0" prefHeight="499.0" prefWidth="500.0" style="-fx-background-color: #6276C6;" BorderPane.alignment="BOTTOM_CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="449.0" minHeight="10.0" prefHeight="163.33332570393878" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="449.0" minHeight="0.0" prefHeight="57.66666666666666" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="450.0" minHeight="10.0" prefHeight="278.3333333333333" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TableView prefHeight="279.0" prefWidth="536.0" style="-fx-background-color: #6276C6; -fx-border-color: #274690;" GridPane.rowIndex="2">
+              <columns>
+                <TableColumn prefWidth="75.0" style="-fx-background-color: #274690;" text="Id" />
+                <TableColumn prefWidth="75.0" style="-fx-background-color: #274690;" text="Name" />
+                  <TableColumn prefWidth="75.0" style="-fx-background-color: #274690;" text="Lastname" />
+                  <TableColumn prefWidth="75.0" style="-fx-background-color: #274690;" text="Email" />
+                  <TableColumn prefWidth="75.0" style="-fx-background-color: #274690;" text="Phone" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="46.0" style="-fx-background-color: #274690; -fx-border-radius: 0;">
+                     <graphic>
+                        <ImageView fx:id="searchBtn" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/icons/search.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <TextField fx:id="searchText" alignment="CENTER" prefHeight="27.0" prefWidth="305.0" />
+                  <Button fx:id="addBtn" mnemonicParsing="false" prefHeight="29.0" prefWidth="165.0" style="-fx-background-color: #274690;" text="Add" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/icons/add.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <Pane maxHeight="100.0" prefHeight="100.0" prefWidth="500.0" style="-fx-background-color: #274690;">
+               <children>
+                  <Label fx:id="loc" layoutX="37.0" layoutY="28.0" prefHeight="17.0" prefWidth="155.0" text="/home" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <Label fx:id="category" graphicTextGap="2.0" layoutX="37.0" layoutY="42.0" prefHeight="35.0" prefWidth="155.0" text="HOME" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+      </GridPane>
+   </center>
+   <left>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #274690;" BorderPane.alignment="CENTER">
+         <children>
+            <Circle fill="DODGERBLUE" layoutX="100.0" layoutY="143.0" radius="75.0" stroke="BLACK" strokeType="INSIDE" />
+            <ImageView fitHeight="150.0" fitWidth="205.0" layoutX="25.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/logo/logo.png" />
+               </image>
+            </ImageView>
+            <VBox layoutY="268.0" prefHeight="200.0" prefWidth="200.0" spacing="20.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#displayTeachers" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #274690;" text="Teachers" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/icons/teacher.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#displayStudents" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #274690;" styleClass="sideBtn" text="Students" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/icons/student.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </left>
+</BorderPane>

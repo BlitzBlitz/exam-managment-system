@@ -9,6 +9,10 @@ public class Exam {
     private String title;
     private int course_id;
 
+
+    public Exam() {
+    }
+
     public Exam(String title, int course_id) {
         this.title = title;
         this.course_id = course_id;

@@ -5,16 +5,10 @@ import com.example.demo.DbConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class ExamRepository {
-    static {
-        try {
-            ExamRepository.createExamTable();
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
     public static void createExamTable() throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
         statement.execute("CREATE TABLE IF NOT EXISTS exam" +
@@ -23,6 +17,36 @@ public class ExamRepository {
         statement.close();
     }
 
+    public static  ArrayList<Exam> getAllExamsForCourse(Course course) throws SQLException {
+        Statement statement = DbConnection.getConnection().createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM exam WHERE course_id = " + course.getId());
+        ArrayList<Exam> exams = new ArrayList<>();
+        while (resultSet.next()){
+            Exam exam = new Exam();
+            exam.setId(resultSet.getInt("id"));
+            exam.setTitle(resultSet.getString("title"));
+            exam.setCourse_id(resultSet.getInt("course_id"));
+            exams.add(exam);
+        }
+        statement.close();
+        return exams;
+    }
+
+    public static  ArrayList<Question> getQuestionForExam(Exam exam) throws SQLException {
+        Statement statement = DbConnection.getConnection().createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM question WHERE exam_id =" + exam.getId());
+        ArrayList<Question> questions = new ArrayList<>();
+        while (resultSet.next()){
+            Question question = new Question();
+            question.setId(resultSet.getInt("id"));
+            question.setTitle(resultSet.getString("title"));
+            question.setAnswer(resultSet.getBoolean("answer"));
+            question.setExamId(resultSet.getInt("exam_id"));
+            questions.add(question);
+        }
+        statement.close();
+        return questions;
+    }
 
     public static void insertExam(Exam exam) throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
@@ -37,15 +61,6 @@ public class ExamRepository {
         }
         statement.close();
     }
-    public static int getIdByTitle(String title) throws SQLException {
-        Statement statement = DbConnection.getConnection().createStatement();
-        ResultSet result = statement.executeQuery("SELECT * FROM exam WHERE title = '"  + title + "'");
-        int id = -1;
-        while (result.next()){
-            id = result.getInt("id");
-        }
-        statement.close();
-        System.out.println(id);
-        return id;
-    }
+
+
 }

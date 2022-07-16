@@ -8,6 +8,9 @@ public class Student {
     private String lastname;
     private String phoneNumber;
 
+    public Student() {
+    }
+
     public Student(String email, String password, String name, String lastname, String phoneNumber) {
         this.email = email;
         this.password = password;

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane managed="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.LoginController">
+   <left>
+      <AnchorPane prefHeight="200.0" prefWidth="350.0" style="-fx-background-color: #274690;" BorderPane.alignment="CENTER">
+         <children>
+            <Circle fill="DODGERBLUE" layoutX="180.0" layoutY="238.0" radius="132.0" stroke="BLACK" strokeType="INSIDE" />
+            <ImageView fitHeight="275.0" fitWidth="254.0" layoutX="48.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/logo/logo.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
+   </left>
+   <right>
+      <AnchorPane prefHeight="200.0" prefWidth="350.0" style="-fx-background-color: #EBEEFF;"
+                   BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="80.0" fitWidth="100.0" layoutX="125.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/icons/users.png" />
+               </image></ImageView>
+            <TextField fx:id="email" layoutX="100.0" layoutY="236.0" promptText="Email" style="-fx-background-color: transparent; -fx-border-color: #576CA8; -fx-border-width: 0px 0px 2px 0px;" />
+            <PasswordField fx:id="password" layoutX="100.0" layoutY="282.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-color: #576CA8; -fx-border-width: 0px 0px 2px 0px;" />
+            <Label fx:id="messageLabel" layoutX="100.0" layoutY="194.0" textFill="WHITE" />
+            <Button fx:id="loginBtn" layoutX="143.0" layoutY="377.0" mnemonicParsing="false"
+                    onAction="#onLogin" style="-fx-background-color: #274690;"
+                     text="Login" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <padding>
+                  <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
+               </padding></Button>
+            <HBox alignment="CENTER" layoutX="79.0" layoutY="330.0" prefHeight="40.0" prefWidth="200.0" spacing="3.0">
+               <children>
+                  <RadioButton fx:id="adminRadioBtn" mnemonicParsing="false" selected="true" text="Admin">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="role" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="teacherRadioBtn" mnemonicParsing="false" text="Teacher" toggleGroup="$role" />
+                  <RadioButton fx:id="studentRadioBtn" mnemonicParsing="false" text="Student" toggleGroup="$role" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </right>
+</BorderPane>

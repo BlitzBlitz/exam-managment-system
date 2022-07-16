@@ -5,6 +5,7 @@ import com.example.demo.DbConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class StudentRepository {
     public static void createStudentTable() throws SQLException {
@@ -33,4 +34,43 @@ public class StudentRepository {
         statement.close();
     }
 
+    public static ArrayList<Student> getAllStudents() throws SQLException {
+        Statement statement = DbConnection.getConnection().createStatement();
+        ResultSet results = statement.executeQuery("SELECT * FROM student");
+        ArrayList<Student> students = new ArrayList<>();
+        while (results.next()){
+            Student student = new Student();
+            student.setId(results.getInt("id"));
+            student.setEmail(results.getString("email"));
+            student.setPassword(results.getString("password"));
+            student.setName(results.getString("name"));
+            student.setLastname(results.getString("lastname"));
+            student.setPhoneNumber(results.getString("phone"));
+
+            students.add(student);
+        }
+        statement.close();
+        return students;
+    }
+
+    public static Student getStudentByEmail(String userEmail) {
+        Student student = new Student();
+        try {
+            Statement statement = DbConnection.getConnection().createStatement();
+            ResultSet results = statement.executeQuery("SELECT * FROM student WHERE email = '"+userEmail+"'");
+
+            while (results.next()){
+                student.setId(results.getInt("id"));
+                student.setEmail(results.getString("email"));
+                student.setPassword(results.getString("password"));
+                student.setName(results.getString("name"));
+                student.setLastname(results.getString("lastname"));
+                student.setPhoneNumber(results.getString("phone"));
+            }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+        return student;
+    }
 }
