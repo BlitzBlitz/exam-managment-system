@@ -11,8 +11,16 @@ public class Teacher {
     public Teacher() {
     }
 
-    public Teacher(String email, String password, String name, String lastname, String phoneNumber) {
 
+    public Teacher( String email, String password, String name, String lastname, String phoneNumber) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.lastname = lastname;
+        this.phoneNumber = phoneNumber;
+    }
+    public Teacher(int id, String email, String password, String name, String lastname, String phoneNumber) {
+        this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
