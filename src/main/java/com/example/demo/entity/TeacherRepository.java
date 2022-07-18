@@ -40,13 +40,7 @@ public class TeacherRepository {
         ArrayList<Teacher> teachers = new ArrayList<>();
         while (results.next()){
             Teacher teacher = new Teacher();
-            teacher.setId(results.getInt("id"));
-            teacher.setEmail(results.getString("email"));
-            teacher.setPassword(results.getString("password"));
-            teacher.setName(results.getString("name"));
-            teacher.setLastname(results.getString("lastname"));
-            teacher.setPhoneNumber(results.getString("phone"));
-
+            convertFromResult(teacher, results);
             teachers.add(teacher);
         }
         statement.close();
@@ -60,17 +54,39 @@ public class TeacherRepository {
             ResultSet results = statement.executeQuery("SELECT * FROM teacher WHERE email = '"+userEmail+"'");
 
             while (results.next()){
-                teacher.setId(results.getInt("id"));
-                teacher.setEmail(results.getString("email"));
-                teacher.setPassword(results.getString("password"));
-                teacher.setName(results.getString("name"));
-                teacher.setLastname(results.getString("lastname"));
-                teacher.setPhoneNumber(results.getString("phone"));
+                convertFromResult(teacher, results);
             }
         }catch (SQLException e){
             System.out.println(e.getMessage());
         }
 
         return teacher;
+    }
+
+    public static ArrayList<Teacher> getTeachersByAnyField(String keyword) throws SQLException{
+
+        ArrayList<Teacher> teachers = new ArrayList<>();
+
+        Statement statement = DbConnection.getConnection().createStatement();
+        ResultSet results = statement.executeQuery("SELECT * FROM teacher WHERE ((id+email+password+name+lastname+phone) LIKE '%" + keyword +"%')");
+
+        while (results.next()){
+            Teacher teacher = new Teacher();
+            convertFromResult(teacher, results);
+            teachers.add(teacher);
+        }
+
+        return teachers;
+    }
+
+
+
+    private static void convertFromResult(Teacher teacher, ResultSet results) throws SQLException {
+        teacher.setId(results.getInt("id"));
+        teacher.setEmail(results.getString("email"));
+        teacher.setPassword(results.getString("password"));
+        teacher.setName(results.getString("name"));
+        teacher.setLastname(results.getString("lastname"));
+        teacher.setPhoneNumber(results.getString("phone"));
     }
 }

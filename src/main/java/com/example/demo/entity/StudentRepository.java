@@ -73,4 +73,27 @@ public class StudentRepository {
 
         return student;
     }
+
+    public static ArrayList<Student> getStudentsByAnyField(String keyword) throws SQLException {
+        ArrayList<Student> students = new ArrayList<>();
+
+        Statement statement = DbConnection.getConnection().createStatement();
+        ResultSet results = statement.executeQuery("SELECT * FROM student WHERE ((id+email+password+name+lastname+phone) LIKE '%" + keyword +"%')");
+
+        while (results.next()){
+            Student student = new Student();
+            convertFromResult(student, results);
+            students.add(student);
+        }
+
+        return students;
+    }
+    private static void convertFromResult(Student student, ResultSet results) throws SQLException {
+        student.setId(results.getInt("id"));
+        student.setEmail(results.getString("email"));
+        student.setPassword(results.getString("password"));
+        student.setName(results.getString("name"));
+        student.setLastname(results.getString("lastname"));
+        student.setPhoneNumber(results.getString("phone"));
+    }
 }
