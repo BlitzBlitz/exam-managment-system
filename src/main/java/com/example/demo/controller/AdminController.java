@@ -1,13 +1,19 @@
 package com.example.demo.controller;
 
+import com.example.demo.HelloApplication;
 import com.example.demo.entity.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,6 +30,7 @@ public class AdminController {
     TextField searchText;
 
 
+
     public void displayTeachers() {
         loc.setText("/home/teachers");
         category.setText("Teachers");
@@ -33,6 +40,23 @@ public class AdminController {
             ObservableList<TableData> teachersData = FXCollections.observableArrayList(
                     teachers.stream().map(teacher -> new TableData(teacher)).toArray(TableData[]::new));
             infoTable.setItems(teachersData);
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+            displayAlertMessage("Error occurred. Please restart the program.");
+        }
+    }
+
+
+
+    public void displayStudents() {
+        loc.setText("/home/students");
+        category.setText("Students");
+        infoTable.setPlaceholder(new Label("There are no students registered"));
+        try{
+            ArrayList<Student> students = StudentRepository.getAllStudents();
+            ObservableList<TableData> studentsData = FXCollections.observableArrayList(
+                    students.stream().map(TableData::new).toArray(TableData[]::new));
+            infoTable.setItems(studentsData);
         }catch (SQLException e){
             System.out.println(e.getMessage());
             displayAlertMessage("Error occurred. Please restart the program.");
@@ -65,21 +89,6 @@ public class AdminController {
         }
     }
 
-    public void displayStudents() {
-        loc.setText("/home/students");
-        category.setText("Students");
-        infoTable.setPlaceholder(new Label("There are no students registered"));
-        try{
-            ArrayList<Student> students = StudentRepository.getAllStudents();
-            ObservableList<TableData> studentsData = FXCollections.observableArrayList(
-                    students.stream().map(TableData::new).toArray(TableData[]::new));
-            infoTable.setItems(studentsData);
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
-            displayAlertMessage("Error occurred. Please restart the program.");
-        }
-    }
-
     public static void displayAlertMessage(String message){
         Alert alertWindow = new Alert(Alert.AlertType.ERROR);
         alertWindow.setTitle("Error");
@@ -87,4 +96,23 @@ public class AdminController {
         alertWindow.showAndWait();
     }
 
+    public void addTeacher() throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("addUser.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 300, 300);
+        stage.setTitle("Add User!");
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
+    }
+
+    public void handleOnLogout(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 700, 500);
+        Button button = (Button) actionEvent.getTarget();
+        Stage stage = (Stage) button.getScene().getWindow();
+        stage.setTitle("Login!");
+        stage.setScene(scene);
+        stage.show();
+    }
 }

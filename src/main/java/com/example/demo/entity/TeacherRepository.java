@@ -89,4 +89,13 @@ public class TeacherRepository {
         teacher.setLastname(results.getString("lastname"));
         teacher.setPhoneNumber(results.getString("phone"));
     }
+
+    public static void addTeacher(String email, String name, String lastname, String phone) throws SQLException {
+        Statement statement = DbConnection.getConnection().createStatement();
+        int count = statement.executeUpdate("INSERT INTO teacher(email,password, name,lastname,phone) VALUES ('"+ email+
+                "' , '"+ phone+"' , '"+ name+"' , '"+ lastname+"' , '"+ phone+"')");
+        if(count <= 0){
+            throw new SQLException("Insertion went wrong");
+        }
+    }
 }

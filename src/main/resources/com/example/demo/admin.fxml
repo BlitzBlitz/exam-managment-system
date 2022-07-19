@@ -54,7 +54,7 @@
             </TableView>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
                <children>
-                  <Button onAction="#search" mnemonicParsing="false" prefHeight="25.0" prefWidth="46.0" style="-fx-background-color: #274690; -fx-border-radius: 0;">
+                  <Button mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="46.0" style="-fx-background-color: #274690; -fx-border-radius: 0;">
                      <graphic>
                         <ImageView fx:id="searchBtn" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -64,7 +64,7 @@
                      </graphic>
                   </Button>
                   <TextField fx:id="searchText" prefHeight="27.0" prefWidth="305.0" promptText="Search by any of the fields below" />
-                  <Button fx:id="addBtn" mnemonicParsing="false" prefHeight="29.0" prefWidth="165.0" style="-fx-background-color: #274690;" text="Add" textFill="WHITE">
+                  <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addTeacher" prefHeight="29.0" prefWidth="165.0" style="-fx-background-color: #274690;" text="Add" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -89,6 +89,17 @@
                         <Font name="System Bold" size="36.0" />
                      </font>
                   </Label>
+                  <Button onAction="#handleOnLogout" layoutX="392.0" layoutY="26.0" mnemonicParsing="false" style="-fx-background-color: #001C40;" text="Log out" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/icons/logout.png" />
+                           </image></ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
                </children>
             </Pane>
          </children>

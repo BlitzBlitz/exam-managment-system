@@ -32,6 +32,7 @@ public class LoginController {
     public void onLogin() throws IOException {
         String userEmail = email.getText();
         String userPassword = password.getText();
+
         if (userEmail.isBlank() || userPassword.isBlank()){
             displayErrorMessage("Enter email and password!");
         } else {
@@ -42,7 +43,9 @@ public class LoginController {
                 }else {
                     Parent root  = FXMLLoader.load(HelloApplication.class.getResource("admin.fxml"));
                     Stage mainStage = (Stage) loginBtn.getScene().getWindow();
+                    mainStage.setTitle("Admin Dashboard");
                     mainStage.setScene(new Scene(root, 700,500));
+
                 }
             }else if(teacherRadioBtn.isSelected()){
                 Teacher teacher = TeacherRepository.getTeacherByEmail(userEmail);

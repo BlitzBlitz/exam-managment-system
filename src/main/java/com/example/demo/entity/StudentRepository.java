@@ -96,4 +96,13 @@ public class StudentRepository {
         student.setLastname(results.getString("lastname"));
         student.setPhoneNumber(results.getString("phone"));
     }
+
+    public static void addStudent(String email, String name, String lastname, String phone) throws SQLException {
+        Statement statement = DbConnection.getConnection().createStatement();
+        int count = statement.executeUpdate("INSERT INTO student(email,password, name,lastname,phone) VALUES ('"+ email+
+                "' , '"+ phone+"' , '"+ name+"' , '"+ lastname+"' , '"+ phone+"')");
+        if(count <= 0){
+            throw new SQLException("Insertion went wrong");
+        }
+    }
 }
