@@ -68,9 +68,11 @@ public class TeacherRepository {
         ArrayList<Teacher> teachers = new ArrayList<>();
 
         Statement statement = DbConnection.getConnection().createStatement();
-        ResultSet results = statement.executeQuery("SELECT * FROM teacher WHERE ((id+email+password+name+lastname+phone) LIKE '%" + keyword +"%')");
-
-        while (results.next()){
+        ResultSet results = statement.executeQuery("SELECT * FROM teacher WHERE ((id LIKE '%" +
+                keyword +"%') OR (name LIKE '%"+keyword+"%') OR " +
+                "(lastname LIKE '%"+keyword+"%') OR (phone LIKE  '%"+keyword+"%') " +
+                "OR (email LIKE '%"+keyword+"%'))");
+       while (results.next()){
             Teacher teacher = new Teacher();
             convertFromResult(teacher, results);
             teachers.add(teacher);
