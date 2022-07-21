@@ -5,6 +5,7 @@ import com.example.demo.DbConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class CourseRepository {
 
@@ -45,5 +46,17 @@ public class CourseRepository {
     }
 
 
-
+    public static ArrayList<Course> getAllCourses(Teacher teacher) throws SQLException {
+        Statement statement = DbConnection.getConnection().createStatement();
+        ResultSet results = statement.executeQuery("SELECT * from course WHERE created_by = " + teacher.getId());
+        ArrayList<Course> courses = new ArrayList<>();
+        while (results.next()){
+            Course course = new Course();
+            course.setId(results.getInt("id"));
+            course.setName(results.getString("name"));
+            course.setCreatedBy(results.getInt("created_by"));
+            courses.add(course);
+        }
+        return courses;
+    }
 }

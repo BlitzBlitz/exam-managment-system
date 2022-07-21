@@ -8,6 +8,9 @@ public class Course {
     private String name;
     private int createdBy;
 
+    public Course() {
+    }
+
     public Course(String name, int createdBy) {
         this.name = name;
         this.createdBy = createdBy;

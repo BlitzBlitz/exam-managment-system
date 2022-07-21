@@ -100,4 +100,15 @@ public class TeacherRepository {
             throw new SQLException("Insertion went wrong");
         }
     }
+
+    public static void updateTeacher(User teacher) throws SQLException {
+        Statement statement = DbConnection.getConnection().createStatement();
+        int count = statement.executeUpdate("UPDATE teacher SET password = '"+ teacher.getPassword()+
+                "' , name = '"+ teacher.getName()+"' , lastname = '"+ teacher.getLastname()+"' , phone = '"+
+                teacher.getPhoneNumber()+"' WHERE email = '" + teacher.getEmail() + "'");
+
+        if(count <= 0){
+            throw new SQLException("Updating went wrong");
+        }
+    }
 }

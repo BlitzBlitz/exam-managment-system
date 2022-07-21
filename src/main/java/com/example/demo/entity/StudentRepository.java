@@ -108,4 +108,7 @@ public class StudentRepository {
             throw new SQLException("Insertion went wrong");
         }
     }
+
+    public static void updateStudent(User user) {
+    }
 }
