@@ -2,17 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.HelloApplication;
 
-import com.example.demo.entity.Course;
-import com.example.demo.entity.CourseRepository;
-import com.example.demo.entity.Teacher;
-import com.example.demo.entity.TeacherRepository;
+import com.example.demo.entity.*;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -30,8 +26,10 @@ public class TeacherController {
 
     private Teacher teacher;
 
+
     public TeacherController(){
         this.teacher =  TeacherRepository.getTeacherByEmail(LoginController.getLoggedInEmail());
+
     }
 
     public void initialize() throws IOException, SQLException {
@@ -39,10 +37,13 @@ public class TeacherController {
 
     }
 
+
     public void showCourses() throws IOException, SQLException {
+        ObservableList<Node> cards = cardGrid.getChildren();
+        cards.removeAll(cards);
 
         ArrayList<Course> courses = CourseRepository.getAllCourses(teacher);
-        addEditBtn();
+        addAddBtn();
         int column = 1, row = 0;
         for(int i = 0; i< courses.size();i++){
             FXMLLoader loader = new FXMLLoader();
@@ -50,6 +51,18 @@ public class TeacherController {
             AnchorPane anchorPane = loader.load();
             CourseCardController courseCardController = loader.getController();
             courseCardController.setTitle(courses.get(i).getName());
+            courseCardController.setOnClickListener(new MyCardListener() {
+                @Override
+                public void onClickListener(String cardTitle) throws SQLException, IOException {
+                    if(cardTitle.compareTo("ADD") == 0){
+                        System.out.println("displaing add");
+
+                        //TODO add course pop-up
+                    }else {
+                        displayExamsForCourse(cardTitle);
+                    }
+                }
+            });
             cardGrid.add(anchorPane,column++,row);
             if (column == 4) {
                 column = 0;
@@ -59,7 +72,27 @@ public class TeacherController {
 
     }
 
-    private void addEditBtn() throws IOException {
+    private void displayExamsForCourse(String courseTitle) throws IOException, SQLException {
+        ObservableList<Node> cards = cardGrid.getChildren();
+        cards.removeAll(cards);
+        ArrayList<Exam> exams = ExamRepository.getAllExamsForCourse(courseTitle);
+        addAddBtn();
+        int column = 1, row = 0;
+        for(int i = 0; i< exams.size();i++){
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(HelloApplication.class.getResource("courseCard.fxml"));
+            AnchorPane anchorPane = loader.load();
+            CourseCardController courseCardController = loader.getController();
+            courseCardController.setTitle(exams.get(i).getTitle());
+            cardGrid.add(anchorPane,column++,row);
+            if (column == 4) {
+                column = 0;
+                row++;
+            }
+        }
+    }
+
+    private void addAddBtn() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(HelloApplication.class.getResource("courseCard.fxml"));
         AnchorPane anchorPane = loader.load();
