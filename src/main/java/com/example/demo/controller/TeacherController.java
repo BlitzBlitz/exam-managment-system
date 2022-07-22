@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -23,6 +24,10 @@ import java.util.ArrayList;
 public class TeacherController {
     @FXML
     GridPane cardGrid;
+    @FXML
+    Label loc;
+    @FXML
+    Label category;
 
     private Teacher teacher;
 
@@ -39,6 +44,9 @@ public class TeacherController {
 
 
     public void showCourses() throws IOException, SQLException {
+        category.setText("Courses");
+        loc.setText("/home/courses");
+
         ObservableList<Node> cards = cardGrid.getChildren();
         cards.removeAll(cards);
 
@@ -70,6 +78,8 @@ public class TeacherController {
     }
 
     private void displayExamsForCourse(String courseTitle) throws IOException, SQLException {
+        loc.setText("/home/courses/"+courseTitle);
+        category.setText(courseTitle.toUpperCase());
         ObservableList<Node> cards = cardGrid.getChildren();
         cards.removeAll(cards);
         ArrayList<Exam> exams = ExamRepository.getAllExamsForCourse(courseTitle);
