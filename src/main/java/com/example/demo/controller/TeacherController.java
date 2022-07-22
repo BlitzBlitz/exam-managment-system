@@ -51,16 +51,13 @@ public class TeacherController {
             AnchorPane anchorPane = loader.load();
             CourseCardController courseCardController = loader.getController();
             courseCardController.setTitle(courses.get(i).getName());
-            courseCardController.setOnClickListener(new MyCardListener() {
-                @Override
-                public void onClickListener(String cardTitle) throws SQLException, IOException {
-                    if(cardTitle.compareTo("ADD") == 0){
-                        System.out.println("displaing add");
+            courseCardController.setOnClickListener(cardTitle -> {
+                if(cardTitle.compareTo("ADD") == 0){
+                    System.out.println("displaing add");
 
-                        //TODO add course pop-up
-                    }else {
-                        displayExamsForCourse(cardTitle);
-                    }
+                    //TODO add course pop-up
+                }else {
+                    displayExamsForCourse(cardTitle);
                 }
             });
             cardGrid.add(anchorPane,column++,row);
@@ -84,6 +81,8 @@ public class TeacherController {
             AnchorPane anchorPane = loader.load();
             CourseCardController courseCardController = loader.getController();
             courseCardController.setTitle(exams.get(i).getTitle());
+            courseCardController.setImage(new Image(HelloApplication.class.
+                    getResource("images/icons/exam.png").toString()));
             cardGrid.add(anchorPane,column++,row);
             if (column == 4) {
                 column = 0;
