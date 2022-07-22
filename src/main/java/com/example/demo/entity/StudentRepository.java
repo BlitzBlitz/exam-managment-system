@@ -67,10 +67,10 @@ public class StudentRepository {
                 student.setLastname(results.getString("lastname"));
                 student.setPhoneNumber(results.getString("phone"));
             }
+            statement.close();
         }catch (SQLException e){
             System.out.println(e.getMessage());
         }
-
         return student;
     }
 
@@ -88,7 +88,7 @@ public class StudentRepository {
             convertFromResult(student, results);
             students.add(student);
         }
-
+        statement.close();
         return students;
     }
     private static void convertFromResult(Student student, ResultSet results) throws SQLException {
@@ -105,8 +105,10 @@ public class StudentRepository {
         int count = statement.executeUpdate("INSERT INTO student(email,password, name,lastname,phone) VALUES ('"+ email+
                 "' , '"+ phone+"' , '"+ name+"' , '"+ lastname+"' , '"+ phone+"')");
         if(count <= 0){
+            statement.close();
             throw new SQLException("Insertion went wrong");
         }
+        statement.close();
     }
 
     public static void updateStudent(User user) {

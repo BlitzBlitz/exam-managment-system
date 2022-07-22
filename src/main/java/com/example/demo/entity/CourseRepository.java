@@ -57,6 +57,19 @@ public class CourseRepository {
             course.setCreatedBy(results.getInt("created_by"));
             courses.add(course);
         }
+        statement.close();
         return courses;
+    }
+
+    public static Course getCourseByName(String courseName) throws SQLException {
+        Statement statement = DbConnection.getConnection().createStatement();
+        ResultSet results = statement.executeQuery("SELECT * from course WHERE name = '" +courseName+ "'");
+
+        Course course = new Course();
+        course.setId(results.getInt("id"));
+        course.setName(results.getString("name"));
+        course.setCreatedBy(results.getInt("created_by"));
+        statement.close();
+        return  course;
     }
 }

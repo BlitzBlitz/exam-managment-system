@@ -38,14 +38,11 @@ public class CourseCardController {
         cardImg.setImage(image);
     }
     public void setOnClickListener(MyCardListener listener){
-        cardBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                try {
-                    listener.onClickListener(((Button) actionEvent.getTarget()).getText());
-                } catch (SQLException | IOException e) {
-                    throw new RuntimeException(e);
-                }
+        cardBtn.setOnAction(actionEvent -> {
+            try {
+                listener.onClickListener(((Button) actionEvent.getTarget()).getText());
+            } catch (SQLException | IOException e) {
+                throw new RuntimeException(e);
             }
         });
     }

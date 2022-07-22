@@ -9,8 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -20,6 +19,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class TeacherController {
     @FXML
@@ -30,6 +30,9 @@ public class TeacherController {
     Label category;
 
     private Teacher teacher;
+    final int numberOfColumns = 3;
+    private Course course;
+
 
 
     public TeacherController(){
@@ -60,16 +63,10 @@ public class TeacherController {
             CourseCardController courseCardController = loader.getController();
             courseCardController.setTitle(courses.get(i).getName());
             courseCardController.setOnClickListener(cardTitle -> {
-                if(cardTitle.compareTo("ADD") == 0){
-                    System.out.println("displaing add");
-
-                    //TODO add course pop-up
-                }else {
-                    displayExamsForCourse(cardTitle);
-                }
+                displayExamsForCourse(cardTitle);
             });
             cardGrid.add(anchorPane,column++,row);
-            if (column == 4) {
+            if (column == numberOfColumns) {
                 column = 0;
                 row++;
             }
@@ -77,14 +74,31 @@ public class TeacherController {
 
     }
 
+    private void addCourse() throws SQLException {
+        TextInputDialog addPopUp = new TextInputDialog();
+        addPopUp.setTitle("Add New Course");
+        addPopUp.setHeaderText("Enter the name of the course: ");
+        addPopUp.setContentText("Name: ");
+
+        Optional<String > result = addPopUp.showAndWait();
+        if(result.isPresent()){
+            Course newCourse = new Course();
+            newCourse.setName(result.get());
+            newCourse.setCreatedBy(teacher.getId());
+            CourseRepository.insertCourse(newCourse);
+        }
+    }
+
     private void displayExamsForCourse(String courseTitle) throws IOException, SQLException {
         loc.setText("/home/courses/"+courseTitle);
         category.setText(courseTitle.toUpperCase());
+        course = CourseRepository.getCourseByName(courseTitle);
         ObservableList<Node> cards = cardGrid.getChildren();
         cards.removeAll(cards);
         ArrayList<Exam> exams = ExamRepository.getAllExamsForCourse(courseTitle);
         addAddBtn();
         int column = 1, row = 0;
+
         for(int i = 0; i< exams.size();i++){
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(HelloApplication.class.getResource("courseCard.fxml"));
@@ -94,7 +108,7 @@ public class TeacherController {
             courseCardController.setImage(new Image(HelloApplication.class.
                     getResource("images/icons/exam.png").toString()));
             cardGrid.add(anchorPane,column++,row);
-            if (column == 4) {
+            if (column == numberOfColumns) {
                 column = 0;
                 row++;
             }
@@ -109,7 +123,37 @@ public class TeacherController {
         courseCardController.setTitle("ADD");
         courseCardController.setImage(new Image(HelloApplication.class.
                 getResource("images/icons/add.png").toString()));
+        if(category.getText().compareTo("Courses") == 0){
+            courseCardController.setOnClickListener(cardTitle -> {
+                addCourse();
+                showCourses();
+            });
+        }else {
+            courseCardController.setOnClickListener(cardTitle -> {
+                String courseName = category.getText().toLowerCase();
+                courseName = courseName.substring(0, 1).toUpperCase() + courseName.substring(1);
+                addExam();
+                displayExamsForCourse(courseName);
+            });
+        }
+
         cardGrid.add(anchorPane,0,0);
+    }
+
+    private void addExam() throws SQLException {
+        TextInputDialog addPopUp = new TextInputDialog();
+        addPopUp.setTitle("Add New Exam");
+        addPopUp.setHeaderText("Enter the title of the exam: ");
+        addPopUp.setContentText("Title: ");
+
+        Optional<String > result = addPopUp.showAndWait();
+        if(result.isPresent()){
+//            int course_id = CourseRepository.getCourseIdByName( courseName);
+            Exam newExam = new Exam();
+            newExam.setTitle(result.get());
+            newExam.setCourse_id(course.getId());
+            ExamRepository.insertExam(newExam);
+        }
     }
 
     public void handleEditPersonalInfo() throws IOException {

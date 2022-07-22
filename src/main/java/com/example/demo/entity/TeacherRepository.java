@@ -49,9 +49,8 @@ public class TeacherRepository {
 
     public static Teacher getTeacherByEmail(String userEmail) {
         Teacher teacher = new Teacher();
-        try {
-            Statement statement = DbConnection.getConnection().createStatement();
-            ResultSet results = statement.executeQuery("SELECT * FROM teacher WHERE email = '"+userEmail+"'");
+        try(Statement statement = DbConnection.getConnection().createStatement();
+            ResultSet results = statement.executeQuery("SELECT * FROM teacher WHERE email = '"+userEmail+"'")) {
 
             while (results.next()){
                 convertFromResult(teacher, results);
@@ -77,7 +76,7 @@ public class TeacherRepository {
             convertFromResult(teacher, results);
             teachers.add(teacher);
         }
-
+        statement.close();
         return teachers;
     }
 
@@ -96,6 +95,7 @@ public class TeacherRepository {
         Statement statement = DbConnection.getConnection().createStatement();
         int count = statement.executeUpdate("INSERT INTO teacher(email,password, name,lastname,phone) VALUES ('"+ email+
                 "' , '"+ phone+"' , '"+ name+"' , '"+ lastname+"' , '"+ phone+"')");
+        statement.close();
         if(count <= 0){
             throw new SQLException("Insertion went wrong");
         }
@@ -106,7 +106,7 @@ public class TeacherRepository {
         int count = statement.executeUpdate("UPDATE teacher SET password = '"+ teacher.getPassword()+
                 "' , name = '"+ teacher.getName()+"' , lastname = '"+ teacher.getLastname()+"' , phone = '"+
                 teacher.getPhoneNumber()+"' WHERE email = '" + teacher.getEmail() + "'");
-
+        statement.close();
         if(count <= 0){
             throw new SQLException("Updating went wrong");
         }
