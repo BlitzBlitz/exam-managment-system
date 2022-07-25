@@ -87,4 +87,24 @@ public class CourseRepository {
             }
         }
     }
+
+    public static ArrayList<Student> getStudentsForCourse(Course course) throws SQLException {
+        Statement statement = DbConnection.getConnection().createStatement();
+
+        ResultSet results = statement.executeQuery("SELECT student.id, student.email, student.name," +
+                " student.phone, student.lastname from student INNER JOIN course_student on student_id = student.id" +
+                " WHERE course_id = " + course.getId());
+        ArrayList<Student> students = new ArrayList<>();
+        while (results.next()){
+            Student student = new Student();
+            student.setId(results.getInt("id"));
+            student.setEmail(results.getString("email"));
+            student.setName(results.getString("name"));
+            student.setLastname(results.getString("lastname"));
+            student.setPhoneNumber(results.getString("phone"));
+            students.add(student);
+        }
+        statement.close();
+        return students;
+    }
 }

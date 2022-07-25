@@ -39,12 +39,10 @@ public class TeacherController {
 
     public TeacherController(){
         this.teacher =  TeacherRepository.getTeacherByEmail(LoginController.getLoggedInEmail());
-
     }
 
     public void initialize() throws IOException, SQLException {
         showCourses();
-
     }
 
 
@@ -122,10 +120,11 @@ public class TeacherController {
 
     public void addStudentToCourse() throws IOException {
         Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("addStudentToCourse.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("showCourseStudents.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 350, 350);
-        stage.setTitle("Add student to course");
-        scene.setUserData(course.getName());
+        stage.setTitle("Course " + course.getName());
+        ShowCourseStudentsController showCourseStudentsController = fxmlLoader.getController();
+        showCourseStudentsController.setUp(course);
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
