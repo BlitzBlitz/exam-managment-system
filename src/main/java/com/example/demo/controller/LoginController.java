@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.HelloApplication;
 import com.example.demo.entity.*;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -40,7 +39,7 @@ public class LoginController {
         } else {
             if(adminRadioBtn.isSelected()){
                 Admin admin = AdminRepository.getAdminByEmail(userEmail);
-                if(admin == null || admin.getPassword().compareTo(userPassword) != 0){
+                if(admin.getPassword() == null || admin.getPassword().compareTo(userPassword) != 0){
                     displayErrorMessage("Enter email and password!");
                 }else {
                     loggedInEmail = userEmail;
@@ -48,11 +47,10 @@ public class LoginController {
                     Stage mainStage = (Stage) loginBtn.getScene().getWindow();
                     mainStage.setTitle("Admin Dashboard");
                     mainStage.setScene(new Scene(root, 700,500));
-
                 }
             }else if(teacherRadioBtn.isSelected()){
                 Teacher teacher = TeacherRepository.getTeacherByEmail(userEmail);
-                if(teacher == null || teacher.getPassword().compareTo(userPassword) != 0){
+                if(teacher.getPassword() == null || teacher.getPassword().compareTo(userPassword) != 0){
                     displayErrorMessage("Enter email and password!");
                 }else {
                     loggedInEmail = userEmail;
@@ -64,7 +62,7 @@ public class LoginController {
                 }
             }else if(studentRadioBtn.isSelected()){
                 Student student = StudentRepository.getStudentByEmail(userEmail);
-                if(student == null && student.getPassword().compareTo(userPassword) == 0){
+                if(student.getPassword() == null || student.getPassword().compareTo(userPassword) != 0){
                     displayErrorMessage("Enter email and password!");
                 }else {
 
