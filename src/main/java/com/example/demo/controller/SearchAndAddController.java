@@ -56,9 +56,12 @@ public class SearchAndAddController {
             FXMLLoader loader = new FXMLLoader();
             Stage stage = (Stage) button.getScene().getWindow();
             loader.setLocation(HelloApplication.class.getResource("addQuestion.fxml"));
+
             Scene addScene = null;
             try {
-                addScene = new Scene(loader.load(), 350,350);
+                addScene = new Scene(loader.load(), 350,300);
+                AddQuestionController addQuestionController = loader.getController();
+                addQuestionController.setUp(exam);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

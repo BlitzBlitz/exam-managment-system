@@ -17,7 +17,7 @@ public class QuestionRepository {
         statement.close();
     }
 
-    public static void insertQuestion(Question question) throws SQLException {
+    public static void addQuestion(Question question) throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
         statement.execute("INSERT INTO question(title, answer, exam_id) VALUES ( '"  + question.getTitle() + "' , "+ question.getAnswer() +" , " + question.getExamId() + " )");
         ResultSet resultSet = statement.executeQuery("SELECT id from question ORDER BY id DESC LIMIT 1");
@@ -47,4 +47,5 @@ public class QuestionRepository {
         return questions;
 
     }
+
 }
