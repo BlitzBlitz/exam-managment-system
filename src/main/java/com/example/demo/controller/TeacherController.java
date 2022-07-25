@@ -28,6 +28,8 @@ public class TeacherController {
     Label loc;
     @FXML
     Label category;
+    @FXML
+    Button addStudentBtn;
 
     private Teacher teacher;
     final int numberOfColumns = 3;
@@ -49,6 +51,7 @@ public class TeacherController {
     public void showCourses() throws IOException, SQLException {
         category.setText("Courses");
         loc.setText("/home/courses");
+        addStudentBtn.setVisible(false);
 
         ObservableList<Node> cards = cardGrid.getChildren();
         cards.removeAll(cards);
@@ -93,6 +96,8 @@ public class TeacherController {
         loc.setText("/home/courses/"+courseTitle);
         category.setText(courseTitle.toUpperCase());
         course = CourseRepository.getCourseByName(courseTitle);
+        addStudentBtn.setVisible(true);
+
         ObservableList<Node> cards = cardGrid.getChildren();
         cards.removeAll(cards);
         ArrayList<Exam> exams = ExamRepository.getAllExamsForCourse(courseTitle);
@@ -113,6 +118,18 @@ public class TeacherController {
                 row++;
             }
         }
+    }
+
+    public void addStudentToCourse() throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("addStudentToCourse.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 350, 350);
+        stage.setTitle("Add student to course");
+        scene.setUserData(course.getName());
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
+
     }
 
     private void addAddBtn() throws IOException {
@@ -148,7 +165,6 @@ public class TeacherController {
 
         Optional<String > result = addPopUp.showAndWait();
         if(result.isPresent()){
-//            int course_id = CourseRepository.getCourseIdByName( courseName);
             Exam newExam = new Exam();
             newExam.setTitle(result.get());
             newExam.setCourse_id(course.getId());

@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.entity.AdminRepository;
+import com.example.demo.entity.CourseRepository;
 import com.example.demo.entity.TeacherRepository;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +23,7 @@ public class HelloApplication extends Application {
 
     }
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         launch();
     }
 }

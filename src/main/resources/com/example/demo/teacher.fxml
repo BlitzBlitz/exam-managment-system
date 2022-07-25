@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane managed="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.TeacherController">
+<BorderPane managed="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.TeacherController">
    <left>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #274690;" BorderPane.alignment="CENTER">
          <children>
@@ -83,7 +75,7 @@
                         <Font name="System Bold" size="36.0" />
                      </font>
                   </Label>
-                  <Button layoutX="392.0" layoutY="26.0" mnemonicParsing="false" onAction="#handleOnLogout" style="-fx-background-color: #001C40;" text="Log out" textFill="WHITE">
+                  <Button layoutX="375.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleOnLogout" prefHeight="35.0" prefWidth="110.0" style="-fx-background-color: #001C40;" text="Log out" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="24.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -93,6 +85,17 @@
                      </graphic>
                      <font>
                         <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="addStudentBtn" layoutX="364.0" layoutY="61.0" mnemonicParsing="false" onAction="#addStudentToCourse" prefHeight="35.0" prefWidth="121.0" style="-fx-background-color: #001C40;" text="Add Student" textFill="WHITE" visible="false">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/icons/add.png" />
+                           </image></ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
                      </font>
                   </Button>
                </children>

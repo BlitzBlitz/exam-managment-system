@@ -39,18 +39,22 @@ public class StudentRepository {
         ResultSet results = statement.executeQuery("SELECT * FROM student");
         ArrayList<Student> students = new ArrayList<>();
         while (results.next()){
-            Student student = new Student();
-            student.setId(results.getInt("id"));
-            student.setEmail(results.getString("email"));
-            student.setPassword(results.getString("password"));
-            student.setName(results.getString("name"));
-            student.setLastname(results.getString("lastname"));
-            student.setPhoneNumber(results.getString("phone"));
-
+            Student student = getStudentFromResults(results);
             students.add(student);
         }
         statement.close();
         return students;
+    }
+
+    private static Student getStudentFromResults(ResultSet results) throws SQLException {
+        Student student = new Student();
+        student.setId(results.getInt("id"));
+        student.setEmail(results.getString("email"));
+        student.setPassword(results.getString("password"));
+        student.setName(results.getString("name"));
+        student.setLastname(results.getString("lastname"));
+        student.setPhoneNumber(results.getString("phone"));
+        return student;
     }
 
     public static Student getStudentByEmail(String userEmail) {
@@ -58,15 +62,7 @@ public class StudentRepository {
         try {
             Statement statement = DbConnection.getConnection().createStatement();
             ResultSet results = statement.executeQuery("SELECT * FROM student WHERE email = '"+userEmail+"'");
-
-            while (results.next()){
-                student.setId(results.getInt("id"));
-                student.setEmail(results.getString("email"));
-                student.setPassword(results.getString("password"));
-                student.setName(results.getString("name"));
-                student.setLastname(results.getString("lastname"));
-                student.setPhoneNumber(results.getString("phone"));
-            }
+            student = getStudentFromResults(results);
             statement.close();
         }catch (SQLException e){
             System.out.println(e.getMessage());
@@ -112,5 +108,18 @@ public class StudentRepository {
     }
 
     public static void updateStudent(User user) {
+    }
+
+    public static Student getStudentByName(String studentName) {
+        Student student = new Student();
+        try {
+            Statement statement = DbConnection.getConnection().createStatement();
+            ResultSet results = statement.executeQuery("SELECT * FROM student WHERE name = '"+studentName+"'");
+            student = getStudentFromResults(results);
+            statement.close();
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return student;
     }
 }

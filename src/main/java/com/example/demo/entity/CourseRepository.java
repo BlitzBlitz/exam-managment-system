@@ -15,7 +15,8 @@ public class CourseRepository {
                 "(id INTEGER PRIMARY KEY ASC, name TEXT UNIQUE, created_by INTEGER, " +
                 "FOREIGN KEY(created_by) REFERENCES teacher(id))");
         statement.execute("CREATE TABLE IF NOT EXISTS course_student " +
-                "(id INTEGER PRIMARY KEY ASC, course_id INTEGER, student_id INTEGER, " +
+                "(course_id INTEGER, student_id INTEGER, " +
+                "PRIMARY KEY (course_id, student_id)" +
                 "FOREIGN KEY(course_id) REFERENCES course(id), " +
                 "FOREIGN KEY(student_id) REFERENCES student(id))");
         statement.close();
@@ -38,12 +39,7 @@ public class CourseRepository {
         }
         statement.close();
     }
-    public static void insertStudentToCourse(Student student, Course course) throws SQLException {
-        Statement statement = DbConnection.getConnection().createStatement();
-        statement.execute("INSERT INTO course_student(course_id, student_id) VALUES ( '"  + course.getId()
-                + "', ' "+ student.getId()+" ' )");
-        statement.close();
-    }
+
 
 
     public static ArrayList<Course> getAllCourses(Teacher teacher) throws SQLException {
@@ -71,5 +67,24 @@ public class CourseRepository {
         course.setCreatedBy(results.getInt("created_by"));
         statement.close();
         return  course;
+    }
+
+    public static void addStudentToCourse(String studentName, String courseName) throws SQLException {
+        Statement statement = DbConnection.getConnection().createStatement();
+        Course course = CourseRepository.getCourseByName(courseName);
+        Student student = StudentRepository.getStudentByName(studentName);
+        if(course.getName() == null || student.getName() == null){
+            throw new SQLException("Course or Student not found!");
+        }
+
+        try {
+            statement.executeUpdate("INSERT INTO course_student(course_id, student_id) VALUES ( '"  + course.getId()
+                    + "', ' "+ student.getId()+" ' )");
+            statement.close();
+        }catch (SQLException e){
+            if(e.getMessage().contains("UNIQUE")){
+                throw new SQLException("Student already registered");
+            }
+        }
     }
 }
