@@ -92,12 +92,12 @@ public class AddStudentToCourseController {
 
     public void handleGoBack(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(HelloApplication.class.getResource("showCourseStudents.fxml"));
+        loader.setLocation(HelloApplication.class.getResource("searchAndAdd.fxml"));
         Button button = (Button) actionEvent.getTarget();
         Stage stage = (Stage) button.getScene().getWindow();
         Scene showStudents = new Scene(loader.load(), 350,350);
-        ShowCourseStudentsController showCourseStudentsController = loader.getController();
-        showCourseStudentsController.setUp(course);
+        SearchAndAddController searchAndAddController = loader.getController();
+        searchAndAddController.setUp(course);
         stage.setScene(showStudents);
     }
 }

@@ -64,7 +64,7 @@ public class LoginController {
                 }
             }else if(studentRadioBtn.isSelected()){
                 Student student = StudentRepository.getStudentByEmail(userEmail);
-                if(student != null && student.getPassword().compareTo(userPassword) == 0){
+                if(student == null && student.getPassword().compareTo(userPassword) == 0){
                     displayErrorMessage("Enter email and password!");
                 }else {
 

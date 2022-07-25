@@ -90,7 +90,7 @@ public class AdminController {
     }
 
 
-    public void addTeacher() throws IOException {
+    public void addUser() throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("addUser.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 300, 300);
@@ -98,6 +98,11 @@ public class AdminController {
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
+        if(category.getText().compareTo("Teachers") == 0){
+            displayTeachers();
+        }else {
+            displayStudents();
+        }
     }
 
     public void handleOnLogout(ActionEvent actionEvent) throws IOException {

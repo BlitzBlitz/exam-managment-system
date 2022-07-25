@@ -110,6 +110,10 @@ public class TeacherController {
             courseCardController.setTitle(exams.get(i).getTitle());
             courseCardController.setImage(new Image(HelloApplication.class.
                     getResource("images/icons/exam.png").toString()));
+            int finalI = i;
+            courseCardController.setOnClickListener((event) -> {
+                showQuestionsForExam(exams.get(finalI));
+            });
             cardGrid.add(anchorPane,column++,row);
             if (column == numberOfColumns) {
                 column = 0;
@@ -118,18 +122,31 @@ public class TeacherController {
         }
     }
 
-    public void addStudentToCourse() throws IOException {
+    private void showQuestionsForExam(Exam exam) throws IOException {
         Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("showCourseStudents.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("searchAndAdd.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 350, 350);
-        stage.setTitle("Course " + course.getName());
-        ShowCourseStudentsController showCourseStudentsController = fxmlLoader.getController();
-        showCourseStudentsController.setUp(course);
+        stage.setTitle("Exam " + exam.getTitle());
+        SearchAndAddController searchAndAddController = fxmlLoader.getController();
+        searchAndAddController.setUp(exam);
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
-
     }
+
+    public void addStudentToCourse() throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("searchAndAdd.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 350, 350);
+        stage.setTitle("Course " + course.getName());
+        SearchAndAddController searchAndAddController = fxmlLoader.getController();
+        searchAndAddController.setUp(course);
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
+    }
+
+
 
     private void addAddBtn() throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -180,7 +197,6 @@ public class TeacherController {
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
-
     }
 
     public void handleOnLogout(ActionEvent actionEvent) throws IOException {
