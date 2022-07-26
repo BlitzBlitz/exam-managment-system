@@ -42,7 +42,7 @@ public class AdminController {
             infoTable.setItems(teachersData);
         }catch (SQLException e){
             System.out.println(e.getMessage());
-            displayAlertMessage("Error occurred. Please restart the program.");
+            AlertController.showAlert("Error occurred. Please restart the program.", "Error", Alert.AlertType.ERROR);
         }
     }
 
@@ -59,7 +59,7 @@ public class AdminController {
             infoTable.setItems(studentsData);
         }catch (SQLException e){
             System.out.println(e.getMessage());
-            displayAlertMessage("Error occurred. Please restart the program.");
+            AlertController.showAlert("Error occurred. Please restart the program.", "Error", Alert.AlertType.ERROR);
         }
     }
 
@@ -85,18 +85,12 @@ public class AdminController {
             infoTable.setItems(tableData);
         }catch (SQLException e){
             System.out.println(e.getMessage());
-            displayAlertMessage("Error occurred. Please restart the program.");
+            AlertController.showAlert("Error occurred. Please restart the program.", "Error", Alert.AlertType.ERROR);
         }
     }
 
-    public static void displayAlertMessage(String message){
-        Alert alertWindow = new Alert(Alert.AlertType.ERROR);
-        alertWindow.setTitle("Error");
-        alertWindow.setContentText(message);
-        alertWindow.showAndWait();
-    }
 
-    public void addTeacher() throws IOException {
+    public void addUser() throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("addUser.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 300, 300);
@@ -104,15 +98,15 @@ public class AdminController {
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
+        if(category.getText().compareTo("Teachers") == 0){
+            displayTeachers();
+        }else {
+            displayStudents();
+        }
     }
 
     public void handleOnLogout(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 700, 500);
-        Button button = (Button) actionEvent.getTarget();
-        Stage stage = (Stage) button.getScene().getWindow();
-        stage.setTitle("Login!");
-        stage.setScene(scene);
-        stage.show();
+        Stage stage = (Stage)  ((Button)actionEvent.getTarget()).getScene().getWindow();
+        LoginController.handleOnLogout(stage);
     }
 }

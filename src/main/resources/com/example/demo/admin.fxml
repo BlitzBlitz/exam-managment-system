@@ -64,7 +64,7 @@
                      </graphic>
                   </Button>
                   <TextField fx:id="searchText" prefHeight="27.0" prefWidth="305.0" promptText="Search by any of the fields below" />
-                  <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addTeacher" prefHeight="29.0" prefWidth="165.0" style="-fx-background-color: #274690;" text="Add" textFill="WHITE">
+                  <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addUser" prefHeight="29.0" prefWidth="165.0" style="-fx-background-color: #274690;" text="Add" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                            <image>

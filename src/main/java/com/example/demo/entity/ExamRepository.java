@@ -17,9 +17,10 @@ public class ExamRepository {
         statement.close();
     }
 
-    public static  ArrayList<Exam> getAllExamsForCourse(Course course) throws SQLException {
+    public static  ArrayList<Exam> getAllExamsForCourse(String title) throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM exam WHERE course_id = " + course.getId());
+        ResultSet resultSet = statement.executeQuery("SELECT exam.id, exam.title, exam.course_id FROM exam " +
+                "INNER JOIN course ON course.id = exam.course_id WHERE course.name = '" + title+"'");
         ArrayList<Exam> exams = new ArrayList<>();
         while (resultSet.next()){
             Exam exam = new Exam();

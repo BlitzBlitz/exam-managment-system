@@ -39,18 +39,22 @@ public class StudentRepository {
         ResultSet results = statement.executeQuery("SELECT * FROM student");
         ArrayList<Student> students = new ArrayList<>();
         while (results.next()){
-            Student student = new Student();
-            student.setId(results.getInt("id"));
-            student.setEmail(results.getString("email"));
-            student.setPassword(results.getString("password"));
-            student.setName(results.getString("name"));
-            student.setLastname(results.getString("lastname"));
-            student.setPhoneNumber(results.getString("phone"));
-
+            Student student = getStudentFromResults(results);
             students.add(student);
         }
         statement.close();
         return students;
+    }
+
+    private static Student getStudentFromResults(ResultSet results) throws SQLException {
+        Student student = new Student();
+        student.setId(results.getInt("id"));
+        student.setEmail(results.getString("email"));
+        student.setPassword(results.getString("password"));
+        student.setName(results.getString("name"));
+        student.setLastname(results.getString("lastname"));
+        student.setPhoneNumber(results.getString("phone"));
+        return student;
     }
 
     public static Student getStudentByEmail(String userEmail) {
@@ -58,19 +62,11 @@ public class StudentRepository {
         try {
             Statement statement = DbConnection.getConnection().createStatement();
             ResultSet results = statement.executeQuery("SELECT * FROM student WHERE email = '"+userEmail+"'");
-
-            while (results.next()){
-                student.setId(results.getInt("id"));
-                student.setEmail(results.getString("email"));
-                student.setPassword(results.getString("password"));
-                student.setName(results.getString("name"));
-                student.setLastname(results.getString("lastname"));
-                student.setPhoneNumber(results.getString("phone"));
-            }
+            student = getStudentFromResults(results);
+            statement.close();
         }catch (SQLException e){
             System.out.println(e.getMessage());
         }
-
         return student;
     }
 
@@ -88,7 +84,7 @@ public class StudentRepository {
             convertFromResult(student, results);
             students.add(student);
         }
-
+        statement.close();
         return students;
     }
     private static void convertFromResult(Student student, ResultSet results) throws SQLException {
@@ -105,7 +101,33 @@ public class StudentRepository {
         int count = statement.executeUpdate("INSERT INTO student(email,password, name,lastname,phone) VALUES ('"+ email+
                 "' , '"+ phone+"' , '"+ name+"' , '"+ lastname+"' , '"+ phone+"')");
         if(count <= 0){
+            statement.close();
             throw new SQLException("Insertion went wrong");
         }
+        statement.close();
+    }
+
+    public static void updateStudent(User student) throws SQLException {
+        Statement statement = DbConnection.getConnection().createStatement();
+        int count = statement.executeUpdate("UPDATE student SET password = '"+ student.getPassword()+
+                "' , name = '"+ student.getName()+"' , lastname = '"+ student.getLastname()+"' , phone = '"+
+                student.getPhoneNumber()+"' WHERE email = '" + student.getEmail() + "'");
+        statement.close();
+        if(count <= 0){
+            throw new SQLException("Updating went wrong");
+        }
+    }
+
+    public static Student getStudentByName(String studentName) {
+        Student student = new Student();
+        try {
+            Statement statement = DbConnection.getConnection().createStatement();
+            ResultSet results = statement.executeQuery("SELECT * FROM student WHERE name = '"+studentName+"'");
+            student = getStudentFromResults(results);
+            statement.close();
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return student;
     }
 }

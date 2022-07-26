@@ -1,6 +1,6 @@
 package com.example.demo.entity;
 
-public class Teacher {
+public class Teacher implements User{
     private int id;
     private String email;
     private String password;

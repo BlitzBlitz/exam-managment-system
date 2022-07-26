@@ -46,18 +46,18 @@ public class AddUserController {
         if(teacherRadio.isSelected()){
             try {
                 TeacherRepository.addTeacher(email,name,lastname,phone);
-                AddUserController.showAlert("The Password is the same as the phone number.",
+                AlertController.showAlert("The Password is the same as the phone number.",
                         "Registration succeeded", Alert.AlertType.INFORMATION);
             }catch (SQLException e){
-                AddUserController.showAlert("Error occurred when inserting! Try again!","Error", Alert.AlertType.ERROR);
+                AlertController.showAlert("Error occurred when inserting! Try again!","Error", Alert.AlertType.ERROR);
             }
         }else {
             try{
                 StudentRepository.addStudent(email,name,lastname,phone);
-                AddUserController.showAlert("The Password is the same as the phone number.",
+                AlertController.showAlert("The Password is the same as the phone number.",
                         "Registration succeeded", Alert.AlertType.INFORMATION);
             }catch (SQLException e){
-                AddUserController.showAlert("Error occurred when inserting! Try again!", "Error", Alert.AlertType.ERROR);
+                AlertController.showAlert("Error occurred when inserting! Try again!", "Error", Alert.AlertType.ERROR);
             }
         }
 
@@ -68,11 +68,6 @@ public class AddUserController {
         Stage addUserStage = (Stage) button.getScene().getWindow();
         addUserStage.close();
     }
-    public static void showAlert(String message, String title, Alert.AlertType type){
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+
 
 }
