@@ -107,7 +107,15 @@ public class StudentRepository {
         statement.close();
     }
 
-    public static void updateStudent(User user) {
+    public static void updateStudent(User student) throws SQLException {
+        Statement statement = DbConnection.getConnection().createStatement();
+        int count = statement.executeUpdate("UPDATE student SET password = '"+ student.getPassword()+
+                "' , name = '"+ student.getName()+"' , lastname = '"+ student.getLastname()+"' , phone = '"+
+                student.getPhoneNumber()+"' WHERE email = '" + student.getEmail() + "'");
+        statement.close();
+        if(count <= 0){
+            throw new SQLException("Updating went wrong");
+        }
     }
 
     public static Student getStudentByName(String studentName) {

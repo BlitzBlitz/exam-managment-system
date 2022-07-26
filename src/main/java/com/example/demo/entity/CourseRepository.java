@@ -57,6 +57,21 @@ public class CourseRepository {
         return courses;
     }
 
+    public static ArrayList<Course> getAllCourses(Student student) throws SQLException {
+        Statement statement = DbConnection.getConnection().createStatement();
+        ResultSet results = statement.executeQuery("SELECT course.name from course " +
+                "INNER join course_student on course_id = course.id WHERE student_id = " + student.getId());
+        ArrayList<Course> courses = new ArrayList<>();
+        while (results.next()){
+            Course course = new Course();
+            course.setName(results.getString("name"));
+            courses.add(course);
+        }
+        statement.close();
+        return courses;
+    }
+
+
     public static Course getCourseByName(String courseName) throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
         ResultSet results = statement.executeQuery("SELECT * from course WHERE name = '" +courseName+ "'");

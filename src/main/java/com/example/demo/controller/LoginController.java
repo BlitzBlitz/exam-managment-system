@@ -56,7 +56,7 @@ public class LoginController {
                     loggedInEmail = userEmail;
                     Parent root  = FXMLLoader.load(HelloApplication.class.getResource("teacher.fxml"));
                     Stage mainStage = (Stage) loginBtn.getScene().getWindow();
-                    mainStage.setTitle("Admin Dashboard");
+                    mainStage.setTitle("Teacher Dashboard");
                     mainStage.setScene(new Scene(root, 700,500));
 
                 }
@@ -65,9 +65,11 @@ public class LoginController {
                 if(student.getPassword() == null || student.getPassword().compareTo(userPassword) != 0){
                     displayErrorMessage("Enter email and password!");
                 }else {
-
-                    //TODO go to student dashboard
-
+                    loggedInEmail = userEmail;
+                    Parent root  = FXMLLoader.load(HelloApplication.class.getResource("studentDashboard.fxml"));
+                    Stage mainStage = (Stage) loginBtn.getScene().getWindow();
+                    mainStage.setTitle("Student Dashboard");
+                    mainStage.setScene(new Scene(root, 700,500));
                 }
             }
 
