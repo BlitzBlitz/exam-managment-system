@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -19,7 +20,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Stack;
 
 public class StudentDashboardController {
     @FXML
@@ -90,7 +90,7 @@ public class StudentDashboardController {
                     getResource("images/icons/exam.png").toString()));
             int finalI = i;
             courseCardController.setOnClickListener((event) -> {
-//                showQuestionsForExam(exams.get(finalI));
+                showTakeExam(exams.get(finalI));
             });
             cardGrid.add(anchorPane,column++,row);
             if (column == 3) {
@@ -98,6 +98,24 @@ public class StudentDashboardController {
                 row++;
             }
         }
+    }
+
+    private void showTakeExam(Exam exam) throws IOException, SQLException {
+        ArrayList<Question> questions = QuestionRepository.getAllQuestionsForExam(exam.getId());
+        if(questions.size() == 0){
+            AlertController.showAlert("No question for this exam", "No Question", Alert.AlertType.ERROR);
+            return;
+        }
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("answerQuestion.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 350, 350);
+        stage.setTitle("Exam " + exam.getTitle());
+        AnswerQuestionsController answerQuestionsController = fxmlLoader.getController();
+        answerQuestionsController.setUp(questions, student,exam);
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
+        displayExamsForCourse(course.getName());
     }
 
     public void handleShowCourses(ActionEvent actionEvent) throws SQLException, IOException {
