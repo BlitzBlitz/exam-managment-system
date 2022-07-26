@@ -4,7 +4,7 @@ package com.example.demo.entity;
 public class Result {
     private Student student;
     private Exam exam;
-    private int result;
+    private double result;
 
 
     public Result() {
@@ -34,11 +34,11 @@ public class Result {
         this.exam = exam;
     }
 
-    public int getResult() {
+    public double getResult() {
         return result;
     }
 
-    public void setResult(int result) {
+    public void setResult(double result) {
         this.result = result;
     }
 

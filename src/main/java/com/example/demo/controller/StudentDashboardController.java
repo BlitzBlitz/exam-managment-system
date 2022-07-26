@@ -18,6 +18,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -131,5 +132,24 @@ public class StudentDashboardController {
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
+    }
+
+    public void handleShowResults(ActionEvent actionEvent) {
+        try {
+            ArrayList<Result> results = ResultRepository.getAllStudentResults(student);
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("studentResults.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 300, 350);
+            StudentResultsController studentResultsController = fxmlLoader.getController();
+            studentResultsController.setUp(results);
+            stage.setTitle("Your Results");
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

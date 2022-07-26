@@ -23,14 +23,16 @@ public class ResultRepository {
                 "', "  + result.getResult()+")");
         statement.close();
     }
-    private static ArrayList<Result> getAllStudentResults(Student student) throws SQLException {
+    public static ArrayList<Result> getAllStudentResults(Student student) throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM result WHERE student_id =" +
+        ResultSet resultSet = statement.executeQuery("SELECT result, title FROM result inner join exam " +
+                "on result.exam_id = exam.id WHERE student_id =" +
                 student.getId());
         ArrayList<Result> results = new ArrayList<>();
         while (resultSet.next()){
             Result result = new Result();
-            result.setResult(resultSet.getInt("result"));
+            result.setResult(resultSet.getDouble("result"));
+            result.setExam(new Exam(resultSet.getString("title")));
             results.add(result);
         }
         statement.close();

@@ -18,6 +18,9 @@ public class Exam {
         this.course_id = course_id;
     }
 
+    public Exam(String title) {
+        this.title = title;
+    }
 
 
     public int getId() {
