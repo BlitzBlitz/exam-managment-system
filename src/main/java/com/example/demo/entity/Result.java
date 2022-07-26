@@ -2,29 +2,21 @@ package com.example.demo.entity;
 
 
 public class Result {
-    private int id;
     private Student student;
     private Exam exam;
     private int result;
-    private String date;
+
 
     public Result() {
     }
 
-    public Result(Student student, Exam exam, int result, String date) {
+    public Result(Student student, Exam exam, int result) {
         this.student = student;
         this.exam = exam;
         this.result = result;
-        this.date = date;
+
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Student getStudent() {
         return student;
@@ -50,11 +42,4 @@ public class Result {
         this.result = result;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
 }

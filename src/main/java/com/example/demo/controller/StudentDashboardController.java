@@ -77,7 +77,7 @@ public class StudentDashboardController {
 
         ObservableList<Node> cards = cardGrid.getChildren();
         cards.removeAll(cards);
-        ArrayList<Exam> exams = ExamRepository.getAllExamsForCourse(courseTitle);
+        ArrayList<Exam> exams = ExamRepository.getAllUndoneExamsForCourse(course.getId(), student.getId());
         int column = 0, row = 0;
 
         for(int i = 0; i< exams.size();i++){

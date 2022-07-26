@@ -11,23 +11,16 @@ public class ResultRepository {
     public static void createResultTable() throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
         statement.execute("CREATE TABLE IF NOT EXISTS result" +
-                "(id INTEGER PRIMARY KEY ASC, student_id INTEGER, exam_id INTEGER, result INTEGER, date TEXT, " +
+                "(student_id INTEGER, exam_id INTEGER, result REAL," +
+                "PRIMARY KEY (student_id, exam_id), " +
                 "FOREIGN KEY(student_id) REFERENCES student(id), FOREIGN KEY(exam_id) REFERENCES exam(id))");
         statement.close();
     }
     public static void insertResult(Result result) throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
-        statement.execute("INSERT INTO result(student_id, exam_id, result, date) " +
+        statement.execute("INSERT INTO result(student_id, exam_id, result) " +
                 "VALUES ( '"  + result.getStudent().getId() + "', '"  + result.getExam().getId() +
-                "', '"  + result.getResult() + "', '"  + result.getDate() + "' )");
-        ResultSet resultSet = statement.executeQuery("SELECT id from result ORDER BY id DESC LIMIT 1");
-        int id = -1;
-        id = resultSet.getInt("id");
-        if(id != -1){
-            result.setId(id);
-        }else {
-            throw new SQLException("Question insertion went wrong!");
-        }
+                "', "  + result.getResult()+")");
         statement.close();
     }
     private static ArrayList<Result> getAllStudentResults(Student student) throws SQLException {
@@ -37,10 +30,7 @@ public class ResultRepository {
         ArrayList<Result> results = new ArrayList<>();
         while (resultSet.next()){
             Result result = new Result();
-            result.setId(resultSet.getInt("id"));
             result.setResult(resultSet.getInt("result"));
-            
-
             results.add(result);
         }
         statement.close();
