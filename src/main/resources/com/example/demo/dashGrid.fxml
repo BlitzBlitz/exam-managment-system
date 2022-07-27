@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+
+<HBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.demo.controller.DashGridController"
+      fx:id="dashContent" alignment="CENTER" prefHeight="400.0" prefWidth="500.0">
+    <children>
+        <ScrollPane fx:id="scroll" minHeight="400.0" prefHeight="400.0" prefWidth="500.0" styleClass="transparent">
+            <content>
+                <GridPane fx:id="cardGrid" alignment="CENTER" hgap="15.0" vgap="15.0">
+                    <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                    </padding></GridPane>
+            </content>
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </ScrollPane>
+    </children>
+</HBox>
+

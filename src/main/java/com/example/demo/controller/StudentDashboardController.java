@@ -14,21 +14,26 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class StudentDashboardController {
     @FXML
-    GridPane cardGrid;
-    @FXML
     Label loc;
     @FXML
     Label category;
+    @FXML
+    VBox dashArea;
+
+    GridPane cardGrid;
+    HBox dashContent;
+    HBox chatContainer;
 
     Student student;
     Course course;
@@ -41,12 +46,33 @@ public class StudentDashboardController {
         this.student = StudentRepository.getStudentByEmail(LoginController.getLoggedInEmail());
     }
 
+    public ChatController switchToChatUI() throws IOException {
+        dashArea.getChildren().remove(dashContent);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(HelloApplication.class.getResource("chat.fxml"));
+        HBox chatConatiner = loader.load();
+        dashArea.getChildren().add(chatConatiner);
+        category.setText("Messages");
+        loc.setText("/home/messages");
+        return loader.getController();
+    }
+    public void handleOnShowChat() throws IOException {
+        if(category.getText().compareTo("Messages") != 0){
+            ChatController chatController = switchToChatUI();
+            chatContainer = chatController.getChatContainer();
+        }
+
+    }
+
     public void handleOnLogout(ActionEvent actionEvent) throws IOException {
         LoginController.handleOnLogout((Stage)((Button)actionEvent.getTarget()).getScene().getWindow());
     }
     public void showCourses() throws IOException, SQLException {
-        category.setText("Courses");
-        loc.setText("/home/courses");
+
+        if(category.getText().compareTo("Messages") == 0 || category.getText().compareTo("HOME") == 0){
+            switchToCourseUI();
+        }
+
 
         ObservableList<Node> cards = cardGrid.getChildren();
         cards.removeAll(cards);
@@ -54,10 +80,10 @@ public class StudentDashboardController {
         ArrayList<Course> courses = CourseRepository.getAllCourses(student);
         int column = 0, row = 0;
         for(int i = 0; i< courses.size();i++){
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(HelloApplication.class.getResource("courseCard.fxml"));
-            AnchorPane anchorPane = loader.load();
-            CourseCardController courseCardController = loader.getController();
+            FXMLLoader loader1 = new FXMLLoader();
+            loader1.setLocation(HelloApplication.class.getResource("courseCard.fxml"));
+            AnchorPane anchorPane = loader1.load();
+            CourseCardController courseCardController = loader1.getController();
             courseCardController.setTitle(courses.get(i).getName());
             courseCardController.setOnClickListener(cardTitle -> {
                 displayExamsForCourse(cardTitle);
@@ -69,6 +95,19 @@ public class StudentDashboardController {
             }
         }
 
+    }
+
+    private void switchToCourseUI() throws IOException {
+        dashArea.getChildren().remove(chatContainer);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(HelloApplication.class.getResource("dashGrid.fxml"));
+        HBox cardContainer = loader.load();
+        dashArea.getChildren().add(cardContainer);
+        DashGridController dashGridController = loader.getController();
+        this.cardGrid = dashGridController.getCardGrid();
+        this.dashContent = dashGridController.getDashContent();
+        category.setText("Courses");
+        loc.setText("/home/courses");
     }
 
     private void displayExamsForCourse(String courseTitle) throws IOException, SQLException {
