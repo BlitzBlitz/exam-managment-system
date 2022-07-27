@@ -69,14 +69,6 @@ public class ExamRepository {
     public static void insertExam(Exam exam) throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
         statement.execute("INSERT INTO exam(title, course_id) VALUES ( '"  + exam.getTitle() + "', '"  + exam.getCourse_id() +  "' )");
-        ResultSet resultSet = statement.executeQuery("SELECT id from exam ORDER BY id DESC LIMIT 1");
-        int id = -1;
-        id = resultSet.getInt("id");
-        if(id != -1){
-            exam.setId(id);
-        }else {
-            throw new SQLException("Question insertion went wrong!");
-        }
         statement.close();
     }
 
