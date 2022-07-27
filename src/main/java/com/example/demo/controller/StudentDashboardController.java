@@ -46,17 +46,19 @@ public class StudentDashboardController {
         this.student = StudentRepository.getStudentByEmail(LoginController.getLoggedInEmail());
     }
 
-    public ChatController switchToChatUI() throws IOException {
+    public ChatController switchToChatUI() throws IOException, SQLException {
         dashArea.getChildren().remove(dashContent);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(HelloApplication.class.getResource("chat.fxml"));
-        HBox chatConatiner = loader.load();
-        dashArea.getChildren().add(chatConatiner);
+        HBox chatContainer = loader.load();
+        ChatController chatController = loader.getController();
+        chatController.setUsers(MessageRepository.getConnectedUsers(student), student);
+        dashArea.getChildren().add(chatContainer);
         category.setText("Messages");
         loc.setText("/home/messages");
         return loader.getController();
     }
-    public void handleOnShowChat() throws IOException {
+    public void handleOnShowChat() throws IOException, SQLException {
         if(category.getText().compareTo("Messages") != 0){
             ChatController chatController = switchToChatUI();
             chatContainer = chatController.getChatContainer();
