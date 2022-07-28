@@ -6,6 +6,16 @@ public class Message {
     User receiver;
     String message;
 
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", sender=" + sender +
+                ", receiver=" + receiver +
+                ", message='" + message + '\'' +
+                '}';
+    }
+
     public Message() {
     }
 

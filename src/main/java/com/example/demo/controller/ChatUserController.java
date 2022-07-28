@@ -7,6 +7,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import com.example.demo.entity.MessageRepository;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class ChatUserController {
@@ -16,6 +17,8 @@ public class ChatUserController {
     Label usernameLabel;
     @FXML
     Label unreadMessagesLabel;
+
+    ShowMessagesListener showMessagesListener;
 
     User sender;
     User receiver;
@@ -32,10 +35,20 @@ public class ChatUserController {
             return null;
         }
         usernameLabel.setText(this.sender.getName() + " " + this.sender.getLastname() );
-        unreadMessagesLabel.setText(MessageRepository.getUnreadMessagesCount(this.sender, this.receiver) + "");
+        int unreadMessages = MessageRepository.getUnreadMessagesCount(this.sender, this.receiver);
+        if(unreadMessages > 0){
+            unreadMessagesLabel.setText( unreadMessages + "");
+        }else {
+            unreadMessagesLabel.setVisible(false);
+        }
         return chatUserContainer;
     }
+    public void setShowMessagesListener(ShowMessagesListener showMessagesListener){
+        this.showMessagesListener = showMessagesListener;
+    }
 
-    public void handleShowChat(MouseEvent mouseEvent) {
+
+    public void handleShowChat(MouseEvent mouseEvent) throws SQLException, IOException {
+        showMessagesListener.onClickListener();
     }
 }

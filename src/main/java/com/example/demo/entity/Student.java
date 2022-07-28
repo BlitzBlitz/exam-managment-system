@@ -11,6 +11,15 @@ public class Student implements User{
     public Student() {
     }
 
+    public Student(int id, String email, String password, String name, String lastname, String phoneNumber) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.lastname = lastname;
+        this.phoneNumber = phoneNumber;
+    }
+
     public Student(String email, String password, String name, String lastname, String phoneNumber) {
         this.email = email;
         this.password = password;

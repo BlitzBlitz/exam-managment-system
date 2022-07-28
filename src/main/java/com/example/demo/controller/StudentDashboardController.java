@@ -52,7 +52,7 @@ public class StudentDashboardController {
         loader.setLocation(HelloApplication.class.getResource("chat.fxml"));
         HBox chatContainer = loader.load();
         ChatController chatController = loader.getController();
-        chatController.setUsers(MessageRepository.getConnectedUsers(student), student);
+        chatController.setFriends(MessageRepository.getConnectedUsers(student), student);
         dashArea.getChildren().add(chatContainer);
         category.setText("Messages");
         loc.setText("/home/messages");
