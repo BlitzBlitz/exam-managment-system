@@ -48,7 +48,6 @@ public class MessageRepository {
         int result = statement.executeUpdate("UPDATE message set read = true WHERE sender_id = " + friend.getId()+
                 " AND receiver_id = " + loggedInUser.getId() + " AND sender_type = '" +
                 friend.getClass().getSimpleName().toLowerCase() + "'");
-        System.out.println("REsult: " + result);
     }
 
     public static int getUnreadMessagesCount(User sender, User receiver) throws SQLException {
@@ -59,7 +58,6 @@ public class MessageRepository {
                 + sender.getId() + " AND receiver_id = "+ receiver.getId()+" AND sender_type is '" + senderType + "' AND read = false");
         unread = result.getInt("unread");
         statement.close();
-        System.out.println(unread);
         return unread;
     }
 

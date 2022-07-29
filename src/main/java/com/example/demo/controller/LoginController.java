@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.HelloApplication;
+import com.example.demo.ExamManagmentSystem;
 import com.example.demo.entity.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,7 +43,7 @@ public class LoginController {
                     displayErrorMessage("Enter email and password!");
                 }else {
                     loggedInEmail = userEmail;
-                    Parent root  = FXMLLoader.load(HelloApplication.class.getResource("admin.fxml"));
+                    Parent root  = FXMLLoader.load(ExamManagmentSystem.class.getResource("admin.fxml"));
                     Stage mainStage = (Stage) loginBtn.getScene().getWindow();
                     mainStage.setTitle("Admin Dashboard");
                     mainStage.setScene(new Scene(root, 700,500));
@@ -54,7 +54,7 @@ public class LoginController {
                     displayErrorMessage("Enter email and password!");
                 }else {
                     loggedInEmail = userEmail;
-                    Parent root  = FXMLLoader.load(HelloApplication.class.getResource("teacher.fxml"));
+                    Parent root  = FXMLLoader.load(ExamManagmentSystem.class.getResource("teacher.fxml"));
                     Stage mainStage = (Stage) loginBtn.getScene().getWindow();
                     mainStage.setTitle("Teacher Dashboard");
                     mainStage.setScene(new Scene(root, 700,500));
@@ -66,7 +66,7 @@ public class LoginController {
                     displayErrorMessage("Enter email and password!");
                 }else {
                     loggedInEmail = userEmail;
-                    Parent root  = FXMLLoader.load(HelloApplication.class.getResource("studentDashboard.fxml"));
+                    Parent root  = FXMLLoader.load(ExamManagmentSystem.class.getResource("studentDashboard.fxml"));
                     Stage mainStage = (Stage) loginBtn.getScene().getWindow();
                     mainStage.setTitle("Student Dashboard");
                     mainStage.setScene(new Scene(root, 700,500));
@@ -80,7 +80,7 @@ public class LoginController {
         messageLabel.setTextFill(Color.RED);
     }
     public static void handleOnLogout(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ExamManagmentSystem.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 700, 500);
         stage.setTitle("Login!");
         stage.setScene(scene);

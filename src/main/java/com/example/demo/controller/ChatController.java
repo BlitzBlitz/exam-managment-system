@@ -1,15 +1,13 @@
 package com.example.demo.controller;
 
-import com.example.demo.HelloApplication;
+import com.example.demo.ExamManagmentSystem;
 import com.example.demo.entity.Message;
 import com.example.demo.entity.MessageRepository;
 import com.example.demo.entity.User;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -84,7 +82,7 @@ public class ChatController {
     }
 
     private void addMessageLabelToChatWindow(Message message) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("messageLabel.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ExamManagmentSystem.class.getResource("messageLabel.fxml"));
         fxmlLoader.load();
         MessageLabelController messageLabelController = fxmlLoader.getController();
         messageLabelController.setMessage(message);
@@ -99,7 +97,7 @@ public class ChatController {
     }
 
     private HBox getChatUserContainer(User sender, User receiver) throws IOException, SQLException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("chatUser.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ExamManagmentSystem.class.getResource("chatUser.fxml"));
         fxmlLoader.load();
         ChatUserController chatUserController = fxmlLoader.getController();
         chatUserController.setSender(sender);

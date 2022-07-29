@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.HelloApplication;
+import com.example.demo.ExamManagmentSystem;
 import com.example.demo.entity.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -55,7 +55,7 @@ public class SearchAndAddController {
             Button button = (Button) event.getTarget();
             FXMLLoader loader = new FXMLLoader();
             Stage stage = (Stage) button.getScene().getWindow();
-            loader.setLocation(HelloApplication.class.getResource("addQuestion.fxml"));
+            loader.setLocation(ExamManagmentSystem.class.getResource("addQuestion.fxml"));
 
             Scene addScene = null;
             try {
@@ -137,7 +137,7 @@ public class SearchAndAddController {
         Button button = (Button) actionEvent.getTarget();
         FXMLLoader loader = new FXMLLoader();
         Stage stage = (Stage) button.getScene().getWindow();
-        loader.setLocation(HelloApplication.class.getResource("addStudentToCourse.fxml"));
+        loader.setLocation(ExamManagmentSystem.class.getResource("addStudentToCourse.fxml"));
         Scene addScene = new Scene(loader.load(), 350,350);
         AddStudentToCourseController addStudentToCourseController = loader.getController();
         addStudentToCourseController.setUp(course);

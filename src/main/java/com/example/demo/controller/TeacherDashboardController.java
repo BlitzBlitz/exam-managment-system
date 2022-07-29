@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.HelloApplication;
+import com.example.demo.ExamManagmentSystem;
 
 import com.example.demo.entity.*;
 import javafx.collections.ObservableList;
@@ -52,7 +52,7 @@ public class TeacherDashboardController {
     private void switchToCourseUI() throws IOException {
         dashArea.getChildren().remove(chatContainer);
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(HelloApplication.class.getResource("dashGrid.fxml"));
+        loader.setLocation(ExamManagmentSystem.class.getResource("dashGrid.fxml"));
         HBox cardContainer = loader.load();
         dashArea.getChildren().add(cardContainer);
         DashGridController dashGridController = loader.getController();
@@ -78,7 +78,7 @@ public class TeacherDashboardController {
         int column = 1, row = 0;
         for(int i = 0; i< courses.size();i++){
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(HelloApplication.class.getResource("courseCard.fxml"));
+            loader.setLocation(ExamManagmentSystem.class.getResource("courseCard.fxml"));
             AnchorPane anchorPane = loader.load();
             CourseCardController courseCardController = loader.getController();
             courseCardController.setTitle(courses.get(i).getName());
@@ -123,11 +123,11 @@ public class TeacherDashboardController {
 
         for(int i = 0; i< exams.size();i++){
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(HelloApplication.class.getResource("courseCard.fxml"));
+            loader.setLocation(ExamManagmentSystem.class.getResource("courseCard.fxml"));
             AnchorPane anchorPane = loader.load();
             CourseCardController courseCardController = loader.getController();
             courseCardController.setTitle(exams.get(i).getTitle());
-            courseCardController.setImage(new Image(HelloApplication.class.
+            courseCardController.setImage(new Image(ExamManagmentSystem.class.
                     getResource("images/icons/exam.png").toString()));
             int finalI = i;
             courseCardController.setOnClickListener((event) -> {
@@ -143,7 +143,7 @@ public class TeacherDashboardController {
 
     private void showQuestionsForExam(Exam exam) throws IOException {
         Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("searchAndAdd.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ExamManagmentSystem.class.getResource("searchAndAdd.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 350, 350);
         stage.setTitle("Exam " + exam.getTitle());
         SearchAndAddController searchAndAddController = fxmlLoader.getController();
@@ -155,7 +155,7 @@ public class TeacherDashboardController {
 
     public void addStudentToCourse() throws IOException {
         Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("searchAndAdd.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ExamManagmentSystem.class.getResource("searchAndAdd.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 350, 350);
         stage.setTitle("Course " + course.getName());
         SearchAndAddController searchAndAddController = fxmlLoader.getController();
@@ -169,11 +169,11 @@ public class TeacherDashboardController {
 
     private void addAddBtn() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(HelloApplication.class.getResource("courseCard.fxml"));
+        loader.setLocation(ExamManagmentSystem.class.getResource("courseCard.fxml"));
         AnchorPane anchorPane = loader.load();
         CourseCardController courseCardController = loader.getController();
         courseCardController.setTitle("ADD");
-        courseCardController.setImage(new Image(HelloApplication.class.
+        courseCardController.setImage(new Image(ExamManagmentSystem.class.
                 getResource("images/icons/add.png").toString()));
         if(category.getText().compareTo("Courses") == 0){
             courseCardController.setOnClickListener(cardTitle -> {
@@ -209,7 +209,7 @@ public class TeacherDashboardController {
 
     public void handleEditPersonalInfo() throws IOException {
         Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("updateUser.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ExamManagmentSystem.class.getResource("updateUser.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 300, 350);
         scene.setUserData("teacher");
         stage.setTitle("Edit Personal Info!");
@@ -226,7 +226,7 @@ public class TeacherDashboardController {
     public ChatController switchToChatUI() throws IOException, SQLException {
         dashArea.getChildren().remove(dashContent);
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(HelloApplication.class.getResource("chat.fxml"));
+        loader.setLocation(ExamManagmentSystem.class.getResource("chat.fxml"));
         HBox chatContainer = loader.load();
         ChatController chatController = loader.getController();
         chatController.setFriends(MessageRepository.getConnectedUsers(teacher), teacher);
