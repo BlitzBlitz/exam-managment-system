@@ -32,16 +32,16 @@ public class ChatController {
 
     ArrayList<User> friendUsers;
     User loggedInUser;
-    User selectedUser;
+    User selectedFriend;
 
 
-    public void setFriends(ArrayList<User> senders, User receiver){
-        this.friendUsers = senders;
-        this.loggedInUser = receiver;
-        senders.forEach(sender -> {
+    public void setFriends(ArrayList<User> friendUsers, User loggedInUser){
+        this.friendUsers = friendUsers;
+        this.loggedInUser = loggedInUser;
+        friendUsers.forEach(friend -> {
             HBox chatUserContainer = null;
             try {
-                chatUserContainer = getChatUserContainer(sender, receiver);
+                chatUserContainer = getChatUserContainer(friend, loggedInUser);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } catch (SQLException e) {
@@ -51,24 +51,25 @@ public class ChatController {
             chatUserContainer.setOnMouseClicked((event) -> {
                 //Remove the unread messages badge
                 finalChatUserContainer.getChildren().get(1).setVisible(false);
-
-                showChatMessages(sender, receiver);
-                selectedUser = sender;
-
+                selectedFriend = friend;
+                showChatMessages(friend, loggedInUser);
             });
             usersContainer.getChildren().add(chatUserContainer);
         });
     }
 
-    private void showChatMessages(User sender, User receiver){
+    private void showChatMessages(User friend, User loggedInUser){
 
         this.messageContainer.getChildren().removeAll(this.messageContainer.getChildren());
         ArrayList<Message> messages = null;
         try {
-            messages = MessageRepository.getMessages(sender,receiver);
+            messages = MessageRepository.getMessages(friend,loggedInUser);
         } catch (SQLException e) {
             AlertController.showAlert("Could not display message of chat. Try again!",
                     "Error while displaying messages", Alert.AlertType.ERROR);
+        }
+        if(messages == null){
+            return;
         }
         messages.forEach(message -> {
             try {
@@ -112,12 +113,12 @@ public class ChatController {
         String message = messageTextField.getText();
 
         try {
-            MessageRepository.sendMessage(loggedInUser, selectedUser, message);
+            MessageRepository.sendMessage(loggedInUser, selectedFriend, message);
         } catch (Exception e) {
             AlertController.showAlert("Select a contact please",
                     "Contact not selected", Alert.AlertType.ERROR);
         }
         messageTextField.setText("");
-        showChatMessages(loggedInUser,selectedUser);
+        showChatMessages(selectedFriend, loggedInUser );
     }
 }

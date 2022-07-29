@@ -16,37 +16,39 @@ public class MessageRepository {
         statement.close();
     }
 
-    public static ArrayList<Message> getMessages(User sender, User receiver) throws SQLException {
+    public static ArrayList<Message> getMessages(User friend, User loggedInUser) throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
         ResultSet result = statement.executeQuery("SELECT * FROM message WHERE (sender_id = "
-                + sender.getId() + " AND receiver_id = "+ receiver.getId()+") OR ( sender_id = "+ receiver.getId()
-                + " AND receiver_id = " + sender.getId() + " )" );
+                + friend.getId() + " AND receiver_id = "+ loggedInUser.getId()+") OR ( sender_id = "+
+                loggedInUser.getId()
+                + " AND receiver_id = " + friend.getId() + " )" );
 
         ArrayList<Message> messages = new ArrayList<>();
         while (result.next()){
             String senderType = result.getString("sender_type");
             Message message = new Message();
-            if(senderType.compareTo(sender.getClass().getSimpleName().toLowerCase()) == 0){
-                message.setSender(sender);
-                message.setReceiver(receiver);
+            if(senderType.compareTo(friend.getClass().getSimpleName().toLowerCase()) == 0){
+                message.setSender(friend);
+                message.setReceiver(loggedInUser);
             }else {
-                message.setReceiver(sender);
-                message.setSender(receiver);
+                message.setReceiver(friend);
+                message.setSender(loggedInUser);
             }
             message.setMessage(result.getString("message"));
             message.setId(result.getInt("id"));
             messages.add(message);
         }
         statement.close();
-        makeMessagesAsRead(sender,receiver);
+        makeMessagesAsRead(friend,loggedInUser);
         return messages;
     }
 
-    private static void makeMessagesAsRead(User sender, User receiver) throws SQLException {
+    private static void makeMessagesAsRead(User friend, User loggedInUser) throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
-        statement.executeUpdate("UPDATE message set read = true WHERE sender_id = " + sender.getId()+
-                " AND receiver_id = " + receiver.getId() + " AND sender_type = '" +
-                sender.getClass().getSimpleName().toLowerCase() + "'");
+        int result = statement.executeUpdate("UPDATE message set read = true WHERE sender_id = " + friend.getId()+
+                " AND receiver_id = " + loggedInUser.getId() + " AND sender_type = '" +
+                friend.getClass().getSimpleName().toLowerCase() + "'");
+        System.out.println("REsult: " + result);
     }
 
     public static int getUnreadMessagesCount(User sender, User receiver) throws SQLException {
