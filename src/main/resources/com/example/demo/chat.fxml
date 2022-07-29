@@ -23,12 +23,12 @@
             </ScrollPane>
             <HBox alignment="CENTER" prefHeight="87.0" prefWidth="320.0" style="-fx-background-color: #274690; -fx-border-color: white; -fx-border-width: 0 0 0 1px;">
                <children>
-                  <TextField prefHeight="40.0" prefWidth="220.0" promptText="Type here...">
+                  <TextField fx:id="messageTextField" prefHeight="40.0" prefWidth="220.0" promptText="Type here...">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #008A64;" text="Send" textFill="WHITE">
+                  <Button mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#handleOnSend" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #008A64;" text="Send" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>

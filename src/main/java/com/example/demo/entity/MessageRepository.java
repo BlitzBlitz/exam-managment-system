@@ -80,4 +80,12 @@ public class MessageRepository {
         }
         return users;
     }
+
+    public static void sendMessage(User sender, User receiver, String message) throws SQLException {
+        String senderType = sender.getClass().getSimpleName().toLowerCase();
+        Statement statement = DbConnection.getConnection().createStatement();
+        statement.executeUpdate("INSERT INTO message(sender_id, receiver_id, message, read, sender_type) VALUES " +
+                "("+sender.getId()+" , " +receiver.getId() +" , '" + message +"' , " + false +
+                " , '" + senderType + "')" );
+    }
 }
