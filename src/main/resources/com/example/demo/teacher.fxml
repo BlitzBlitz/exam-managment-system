@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane managed="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.TeacherController">
+<BorderPane managed="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.TeacherDashboardController">
    <left>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #274690;" BorderPane.alignment="CENTER">
          <children>
@@ -43,7 +42,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button layoutX="10.0" layoutY="70.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #274690;" styleClass="sideBtn" text="Messages" textFill="WHITE">
+                  <Button layoutX="10.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleOnShowChat" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #274690;" styleClass="sideBtn" text="Messages" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -61,7 +60,7 @@
       </AnchorPane>
    </left>
    <center>
-      <VBox prefHeight="500.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="dashArea" prefHeight="500.0" prefWidth="500.0" BorderPane.alignment="CENTER">
          <children>
             <Pane maxHeight="147.0" prefHeight="100.0" prefWidth="500.0" style="-fx-background-color: #274690;">
                <children>
@@ -100,21 +99,6 @@
                   </Button>
                </children>
             </Pane>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <ScrollPane fx:id="scroll" minHeight="400.0" prefHeight="400.0" prefWidth="500.0" styleClass="transparent">
-                     <content>
-                        <GridPane fx:id="cardGrid" alignment="CENTER" hgap="15.0" vgap="15.0">
-                           <padding>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                           </padding></GridPane>
-                     </content>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </ScrollPane>
-               </children>
-            </HBox>
          </children>
       </VBox>
    </center>

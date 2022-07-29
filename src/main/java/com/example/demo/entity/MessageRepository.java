@@ -54,18 +54,18 @@ public class MessageRepository {
         int unread = 0;
         String senderType = sender.getClass().getSimpleName().toLowerCase();
         ResultSet result = statement.executeQuery("SELECT count(id) as unread FROM message WHERE sender_id = "
-                + sender.getId() + " AND receiver_id = "+ receiver.getId()+" AND sender_type is '" + senderType + "' AND read is false");
+                + sender.getId() + " AND receiver_id = "+ receiver.getId()+" AND sender_type is '" + senderType + "' AND read = false");
         unread = result.getInt("unread");
         statement.close();
+        System.out.println(unread);
         return unread;
     }
 
     public static ArrayList<User> getConnectedUsers(User user) throws SQLException {
         ArrayList<User> users = new ArrayList<>();
         Statement statement = DbConnection.getConnection().createStatement();
+        ResultSet result = null;
         if(user.getClass() == Student.class){
-            ResultSet result = null;
-
             result = statement.executeQuery("SELECT DISTINCT teacher.id, teacher.name, teacher.lastname" +
                     " FROM teacher LEFT JOIN course ON course.created_by = teacher.id " +
                     "LEFT JOIN course_student ON course.id = course_student.course_id " +
@@ -77,6 +77,17 @@ public class MessageRepository {
                 teacher.setId(result.getInt("id"));
                 users.add(teacher);
             }
+        }else {
+            result = statement.executeQuery("SELECT DISTINCT student.id, student.name, student.lastname " +
+                    "FROM student INNER JOIN course_student on student.id = student_id " +
+                    "INNER JOIN course on course.id = course_student.course_id WHERE created_by = " + user.getId());
+            while (result.next()){
+                Student student = new Student();
+                student.setName(result.getString("name"));
+                student.setLastname(result.getString("lastname"));
+                student.setId(result.getInt("id"));
+                users.add(student);
+            }
         }
         return users;
     }
@@ -85,7 +96,10 @@ public class MessageRepository {
         String senderType = sender.getClass().getSimpleName().toLowerCase();
         Statement statement = DbConnection.getConnection().createStatement();
         statement.executeUpdate("INSERT INTO message(sender_id, receiver_id, message, read, sender_type) VALUES " +
-                "("+sender.getId()+" , " +receiver.getId() +" , '" + message +"' , " + false +
+                "("+sender.getId()+" , " +receiver.getId() +" , '" + message +"' , " + 0 +
                 " , '" + senderType + "')" );
+        System.out.println("INSERT INTO message(sender_id, receiver_id, message, read, sender_type) VALUES " +
+                "("+sender.getId()+" , " +receiver.getId() +" , '" + message +"' , " + false +
+                " , '" + senderType + "')");
     }
 }

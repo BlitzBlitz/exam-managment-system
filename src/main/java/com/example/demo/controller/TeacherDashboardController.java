@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -22,9 +23,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class TeacherController {
+public class TeacherDashboardController {
     @FXML
-    GridPane cardGrid;
+    VBox dashArea;
     @FXML
     Label loc;
     @FXML
@@ -32,13 +33,15 @@ public class TeacherController {
     @FXML
     Button addStudentBtn;
 
-    private Teacher teacher;
+    GridPane cardGrid;
+    HBox chatContainer;
+    HBox dashContent;
+
+    private final Teacher teacher;
     final int numberOfColumns = 3;
     private Course course;
 
-
-
-    public TeacherController(){
+    public TeacherDashboardController(){
         this.teacher =  TeacherRepository.getTeacherByEmail(LoginController.getLoggedInEmail());
     }
 
@@ -46,10 +49,25 @@ public class TeacherController {
         showCourses();
     }
 
-
-    public void showCourses() throws IOException, SQLException {
+    private void switchToCourseUI() throws IOException {
+        dashArea.getChildren().remove(chatContainer);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(HelloApplication.class.getResource("dashGrid.fxml"));
+        HBox cardContainer = loader.load();
+        dashArea.getChildren().add(cardContainer);
+        DashGridController dashGridController = loader.getController();
+        this.cardGrid = dashGridController.getCardGrid();
+        this.dashContent = dashGridController.getDashContent();
         category.setText("Courses");
         loc.setText("/home/courses");
+    }
+
+
+    public void showCourses() throws IOException, SQLException {
+
+        if(category.getText().compareTo("Messages") == 0 || category.getText().compareTo("HOME") == 0){
+            switchToCourseUI();
+        }
         addStudentBtn.setVisible(false);
 
         ObservableList<Node> cards = cardGrid.getChildren();
@@ -203,5 +221,25 @@ public class TeacherController {
     public void handleOnLogout(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) ((Button) actionEvent.getTarget()).getScene().getWindow();
         LoginController.handleOnLogout(stage);
+    }
+
+    public ChatController switchToChatUI() throws IOException, SQLException {
+        dashArea.getChildren().remove(dashContent);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(HelloApplication.class.getResource("chat.fxml"));
+        HBox chatContainer = loader.load();
+        ChatController chatController = loader.getController();
+        chatController.setFriends(MessageRepository.getConnectedUsers(teacher), teacher);
+        dashArea.getChildren().add(chatContainer);
+        category.setText("Messages");
+        loc.setText("/home/messages");
+        return loader.getController();
+    }
+
+    public void handleOnShowChat() throws IOException, SQLException {
+        if(category.getText().compareTo("Messages") != 0){
+            ChatController chatController = switchToChatUI();
+            chatContainer = chatController.getChatContainer();
+        }
     }
 }

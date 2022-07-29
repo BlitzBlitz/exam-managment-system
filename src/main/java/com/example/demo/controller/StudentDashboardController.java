@@ -63,7 +63,6 @@ public class StudentDashboardController {
             ChatController chatController = switchToChatUI();
             chatContainer = chatController.getChatContainer();
         }
-
     }
 
     public void handleOnLogout(ActionEvent actionEvent) throws IOException {
