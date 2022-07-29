@@ -4,12 +4,12 @@ import com.example.demo.HelloApplication;
 import com.example.demo.entity.Message;
 import com.example.demo.entity.MessageRepository;
 import com.example.demo.entity.User;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -29,6 +29,8 @@ public class ChatController {
     VBox messageContainer;
     @FXML
     TextField messageTextField;
+    @FXML
+    ScrollPane scrollPane;
 
 
     ArrayList<User> friendUsers;

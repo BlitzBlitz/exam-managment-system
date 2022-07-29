@@ -10,7 +10,8 @@
    <children>
       <VBox minWidth="320.0" prefHeight="400.0" prefWidth="320.0">
          <children>
-            <ScrollPane hbarPolicy="NEVER" prefHeight="330.0" prefWidth="200.0" style="-fx-background-color: white;">
+            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER"  prefHeight="330.0" prefWidth="200.0"
+                        style="-fx-background-color: white;" >
                <content>
                   <VBox fx:id="messageContainer" prefHeight="321.0" prefWidth="320.0" style="-fx-background-color: #274690;">
                      <padding>
