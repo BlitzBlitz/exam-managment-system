@@ -14,12 +14,12 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <ScrollPane hbarPolicy="NEVER" prefHeight="233.0" prefWidth="338.0">
+            <ScrollPane hbarPolicy="NEVER" prefHeight="267.0" prefWidth="280.0">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
                <content>
-                  <VBox fx:id="resultsContainer" prefHeight="229.0" prefWidth="330.0" >
+                  <VBox fx:id="resultsContainer" prefHeight="264.0" prefWidth="275.0">
                      </VBox>
                </content>
             </ScrollPane>

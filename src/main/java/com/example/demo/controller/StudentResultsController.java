@@ -38,8 +38,8 @@ public class StudentResultsController {
         examTitleLabel.setAlignment(Pos.CENTER);
         examTitleLabel.setTextFill(Color.WHITE);
         examTitleLabel.setBackground(new Background(new BackgroundFill
-                (Color.rgb(0, 0, 80, 0.7),
-                        new CornerRadii(5.0), new Insets(-5.0))));
+                (Color.rgb(0, 0, 80, 0.8),
+                        new CornerRadii(0.0), new Insets(-5.0))));
         examTitleLabel.setFont(new Font("System Bold", 14));
         return examTitleLabel;
     }

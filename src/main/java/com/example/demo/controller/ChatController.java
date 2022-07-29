@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -86,9 +87,11 @@ public class ChatController {
         MessageLabelController messageLabelController = fxmlLoader.getController();
         messageLabelController.setMessage(message);
         if(message.getSender().getClass().getSimpleName().compareTo(loggedInUser.getClass().getSimpleName()) == 0){
-            messageLabelController.setAlignment(Pos.CENTER_LEFT);
-        }else {
             messageLabelController.setAlignment(Pos.CENTER_RIGHT);
+            messageLabelController.setBackgroundColor(Color.rgb(49,140,231));
+        }else {
+            messageLabelController.setAlignment(Pos.CENTER_LEFT);
+            messageLabelController.setBackgroundColor(Color.rgb(200,200,200));
         }
         messageContainer.getChildren().add(messageLabelController.getMessageLabel());
     }
