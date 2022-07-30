@@ -30,6 +30,10 @@ public class StudentDashboardController {
     Label category;
     @FXML
     VBox dashArea;
+    @FXML
+    Label newMessagesLabel;
+    @FXML
+    HBox messageButtonContainer;
 
     GridPane cardGrid;
     HBox dashContent;
@@ -37,9 +41,20 @@ public class StudentDashboardController {
 
     Student student;
     Course course;
+    int totalUnreadMessages;
 
     public void initialize() throws SQLException, IOException {
         showCourses();
+        showUnreadMessagesBadge();
+    }
+
+    private void showUnreadMessagesBadge() throws SQLException {
+        totalUnreadMessages = MessageRepository.getTotalUnreadMessagesCount(student);
+        if(totalUnreadMessages != 0){
+            newMessagesLabel.setText( totalUnreadMessages+ "");
+        }else {
+            messageButtonContainer.getChildren().remove(messageButtonContainer.getChildren().get(1));
+        }
     }
 
     public StudentDashboardController() {
@@ -47,6 +62,9 @@ public class StudentDashboardController {
     }
 
     public ChatController switchToChatUI() throws IOException, SQLException {
+        if(totalUnreadMessages > 0){
+            messageButtonContainer.getChildren().remove(messageButtonContainer.getChildren().get(1));
+        }
         dashArea.getChildren().remove(dashContent);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(ExamManagmentSystem.class.getResource("chat.fxml"));

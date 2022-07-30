@@ -99,4 +99,15 @@ public class MessageRepository {
                 "("+sender.getId()+" , " +receiver.getId() +" , '" + message +"' , " + 0 +
                 " , '" + senderType + "')" );
     }
+
+    public static int getTotalUnreadMessagesCount(User loggedInUser) throws SQLException {
+        Statement statement = DbConnection.getConnection().createStatement();
+        int unread = 0;
+        String receiverType = loggedInUser.getClass().getSimpleName().toLowerCase();
+        ResultSet result = statement.executeQuery("SELECT count(id) as total_unread FROM message WHERE receiver_id = "+
+                loggedInUser.getId()+" AND sender_type is not '" + receiverType + "' AND read = false");
+        unread = result.getInt("total_unread");
+        statement.close();
+        return unread;
+    }
 }
