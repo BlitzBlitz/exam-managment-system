@@ -10,10 +10,9 @@
    <children>
       <VBox minWidth="320.0" prefHeight="400.0" prefWidth="320.0">
          <children>
-            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER"  prefHeight="330.0" prefWidth="200.0"
-                        style="-fx-background-color: white;" >
+            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" prefHeight="330.0" prefWidth="200.0" style="-fx-background-color: white;" vbarPolicy="ALWAYS" vvalue="1">
                <content>
-                  <VBox fx:id="messageContainer" prefHeight="321.0" prefWidth="320.0" style="-fx-background-color: #274690;">
+                  <VBox fx:id="messageContainer" prefHeight="330.0" prefWidth="316.0" style="-fx-background-color: #274690;">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="40.0" top="10.0" />
                      </padding></VBox>
@@ -24,7 +23,7 @@
             </ScrollPane>
             <HBox alignment="CENTER" prefHeight="87.0" prefWidth="320.0" style="-fx-background-color: #274690; -fx-border-color: white; -fx-border-width: 0 0 0 1px;">
                <children>
-                  <TextField fx:id="messageTextField" prefHeight="40.0" prefWidth="220.0" promptText="Type here...">
+                  <TextField fx:id="messageTextField" onAction="#handleOnSend" prefHeight="40.0" prefWidth="220.0" promptText="Type here...">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>

@@ -4,6 +4,10 @@ import com.example.demo.ExamManagmentSystem;
 import com.example.demo.entity.Message;
 import com.example.demo.entity.MessageRepository;
 import com.example.demo.entity.User;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -35,6 +39,17 @@ public class ChatController {
     User loggedInUser;
     User selectedFriend;
 
+    public void initialize(){
+        DoubleProperty hProperty = new SimpleDoubleProperty();
+        hProperty.bind(messageContainer.heightProperty());
+        hProperty.addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                scrollPane.setVvalue(1);
+            }
+        });
+    }
+
 
     public void setFriends(ArrayList<User> friendUsers, User loggedInUser){
         this.friendUsers = friendUsers;
@@ -60,7 +75,6 @@ public class ChatController {
     }
 
     private void showChatMessages(User friend, User loggedInUser){
-
         this.messageContainer.getChildren().removeAll(this.messageContainer.getChildren());
         ArrayList<Message> messages = null;
         try {
@@ -114,6 +128,9 @@ public class ChatController {
 
     public void handleOnSend(){
         String message = messageTextField.getText();
+        if(messageTextField.getText().isBlank()){
+            return;
+        }
 
         try {
             MessageRepository.sendMessage(loggedInUser, selectedFriend, message);

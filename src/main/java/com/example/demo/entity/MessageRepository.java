@@ -98,8 +98,5 @@ public class MessageRepository {
         statement.executeUpdate("INSERT INTO message(sender_id, receiver_id, message, read, sender_type) VALUES " +
                 "("+sender.getId()+" , " +receiver.getId() +" , '" + message +"' , " + 0 +
                 " , '" + senderType + "')" );
-        System.out.println("INSERT INTO message(sender_id, receiver_id, message, read, sender_type) VALUES " +
-                "("+sender.getId()+" , " +receiver.getId() +" , '" + message +"' , " + false +
-                " , '" + senderType + "')");
     }
 }
