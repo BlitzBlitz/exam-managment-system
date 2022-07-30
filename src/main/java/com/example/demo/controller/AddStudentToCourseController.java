@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.HelloApplication;
+import com.example.demo.ExamManagmentSystem;
 import com.example.demo.entity.Course;
 import com.example.demo.entity.CourseRepository;
 import com.example.demo.entity.Student;
@@ -92,7 +92,7 @@ public class AddStudentToCourseController {
 
     public void handleGoBack(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(HelloApplication.class.getResource("searchAndAdd.fxml"));
+        loader.setLocation(ExamManagmentSystem.class.getResource("searchAndAdd.fxml"));
         Button button = (Button) actionEvent.getTarget();
         Stage stage = (Stage) button.getScene().getWindow();
         Scene showStudents = new Scene(loader.load(), 350,350);

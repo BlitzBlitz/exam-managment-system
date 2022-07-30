@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.HelloApplication;
+import com.example.demo.ExamManagmentSystem;
 
 import com.example.demo.entity.*;
 import javafx.collections.ObservableList;
@@ -13,6 +13,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -21,34 +23,67 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class TeacherController {
+public class TeacherDashboardController {
     @FXML
-    GridPane cardGrid;
+    VBox dashArea;
     @FXML
     Label loc;
     @FXML
     Label category;
     @FXML
     Button addStudentBtn;
+    @FXML
+    Label newMessagesLabel;
+    @FXML
+    HBox messageButtonContainer;
 
-    private Teacher teacher;
+    GridPane cardGrid;
+    HBox chatContainer;
+    HBox dashContent;
+
+    private final Teacher teacher;
     final int numberOfColumns = 3;
     private Course course;
+    int totalUnreadMessages;
 
 
-
-    public TeacherController(){
+    public TeacherDashboardController(){
         this.teacher =  TeacherRepository.getTeacherByEmail(LoginController.getLoggedInEmail());
     }
 
     public void initialize() throws IOException, SQLException {
         showCourses();
+        showUnreadMessagesBadge();
+    }
+
+    private void showUnreadMessagesBadge() throws SQLException {
+        totalUnreadMessages = MessageRepository.getTotalUnreadMessagesCount(teacher);
+        if(totalUnreadMessages != 0){
+            newMessagesLabel.setText( totalUnreadMessages+ "");
+        }else {
+            messageButtonContainer.getChildren().remove(messageButtonContainer.getChildren().get(1));
+        }
+    }
+
+    private void switchToCourseUI() throws IOException {
+        dashArea.getChildren().remove(chatContainer);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(ExamManagmentSystem.class.getResource("dashGrid.fxml"));
+        HBox cardContainer = loader.load();
+        dashArea.getChildren().add(cardContainer);
+        DashGridController dashGridController = loader.getController();
+        this.cardGrid = dashGridController.getCardGrid();
+        this.dashContent = dashGridController.getDashContent();
+        category.setText("Courses");
+        loc.setText("/home/courses");
     }
 
 
     public void showCourses() throws IOException, SQLException {
-        category.setText("Courses");
-        loc.setText("/home/courses");
+
+        if(category.getText().compareTo("Messages") == 0 || category.getText().compareTo("HOME") == 0){
+            switchToCourseUI();
+        }
         addStudentBtn.setVisible(false);
 
         ObservableList<Node> cards = cardGrid.getChildren();
@@ -59,7 +94,7 @@ public class TeacherController {
         int column = 1, row = 0;
         for(int i = 0; i< courses.size();i++){
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(HelloApplication.class.getResource("courseCard.fxml"));
+            loader.setLocation(ExamManagmentSystem.class.getResource("courseCard.fxml"));
             AnchorPane anchorPane = loader.load();
             CourseCardController courseCardController = loader.getController();
             courseCardController.setTitle(courses.get(i).getName());
@@ -104,11 +139,11 @@ public class TeacherController {
 
         for(int i = 0; i< exams.size();i++){
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(HelloApplication.class.getResource("courseCard.fxml"));
+            loader.setLocation(ExamManagmentSystem.class.getResource("courseCard.fxml"));
             AnchorPane anchorPane = loader.load();
             CourseCardController courseCardController = loader.getController();
             courseCardController.setTitle(exams.get(i).getTitle());
-            courseCardController.setImage(new Image(HelloApplication.class.
+            courseCardController.setImage(new Image(ExamManagmentSystem.class.
                     getResource("images/icons/exam.png").toString()));
             int finalI = i;
             courseCardController.setOnClickListener((event) -> {
@@ -124,7 +159,7 @@ public class TeacherController {
 
     private void showQuestionsForExam(Exam exam) throws IOException {
         Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("searchAndAdd.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ExamManagmentSystem.class.getResource("searchAndAdd.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 350, 350);
         stage.setTitle("Exam " + exam.getTitle());
         SearchAndAddController searchAndAddController = fxmlLoader.getController();
@@ -136,7 +171,7 @@ public class TeacherController {
 
     public void addStudentToCourse() throws IOException {
         Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("searchAndAdd.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ExamManagmentSystem.class.getResource("searchAndAdd.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 350, 350);
         stage.setTitle("Course " + course.getName());
         SearchAndAddController searchAndAddController = fxmlLoader.getController();
@@ -150,11 +185,11 @@ public class TeacherController {
 
     private void addAddBtn() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(HelloApplication.class.getResource("courseCard.fxml"));
+        loader.setLocation(ExamManagmentSystem.class.getResource("courseCard.fxml"));
         AnchorPane anchorPane = loader.load();
         CourseCardController courseCardController = loader.getController();
         courseCardController.setTitle("ADD");
-        courseCardController.setImage(new Image(HelloApplication.class.
+        courseCardController.setImage(new Image(ExamManagmentSystem.class.
                 getResource("images/icons/add.png").toString()));
         if(category.getText().compareTo("Courses") == 0){
             courseCardController.setOnClickListener(cardTitle -> {
@@ -190,7 +225,7 @@ public class TeacherController {
 
     public void handleEditPersonalInfo() throws IOException {
         Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("updateUser.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ExamManagmentSystem.class.getResource("updateUser.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 300, 350);
         scene.setUserData("teacher");
         stage.setTitle("Edit Personal Info!");
@@ -202,5 +237,29 @@ public class TeacherController {
     public void handleOnLogout(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) ((Button) actionEvent.getTarget()).getScene().getWindow();
         LoginController.handleOnLogout(stage);
+    }
+
+    public ChatController switchToChatUI() throws IOException, SQLException {
+        if(totalUnreadMessages > 0){
+            totalUnreadMessages = 0;
+            messageButtonContainer.getChildren().remove(messageButtonContainer.getChildren().get(1));
+        }
+        dashArea.getChildren().remove(dashContent);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(ExamManagmentSystem.class.getResource("chat.fxml"));
+        HBox chatContainer = loader.load();
+        ChatController chatController = loader.getController();
+        chatController.setFriends(MessageRepository.getConnectedUsers(teacher), teacher);
+        dashArea.getChildren().add(chatContainer);
+        category.setText("Messages");
+        loc.setText("/home/messages");
+        return loader.getController();
+    }
+
+    public void handleOnShowChat() throws IOException, SQLException {
+        if(category.getText().compareTo("Messages") != 0){
+            ChatController chatController = switchToChatUI();
+            chatContainer = chatController.getChatContainer();
+        }
     }
 }

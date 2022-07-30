@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane managed="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.TeacherController">
+<BorderPane managed="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.TeacherDashboardController">
    <left>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #274690;" BorderPane.alignment="CENTER">
          <children>
@@ -43,25 +49,37 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button layoutX="10.0" layoutY="70.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #274690;" styleClass="sideBtn" text="Messages" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/icons/messages.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
+                  <HBox fx:id="messageButtonContainer" alignment="CENTER" prefHeight="41.0" prefWidth="200.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#handleOnShowChat" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #274690;" styleClass="sideBtn" text="Messages" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/icons/messages.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label fx:id="newMessagesLabel" alignment="CENTER" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: green; -fx-background-radius: 10px;" text="0" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>
       </AnchorPane>
    </left>
    <center>
-      <VBox prefHeight="500.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="dashArea" prefHeight="500.0" prefWidth="500.0" BorderPane.alignment="CENTER">
          <children>
             <Pane maxHeight="147.0" prefHeight="100.0" prefWidth="500.0" style="-fx-background-color: #274690;">
                <children>
@@ -100,21 +118,6 @@
                   </Button>
                </children>
             </Pane>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <ScrollPane fx:id="scroll" minHeight="400.0" prefHeight="400.0" prefWidth="500.0" styleClass="transparent">
-                     <content>
-                        <GridPane fx:id="cardGrid" alignment="CENTER" hgap="15.0" vgap="15.0">
-                           <padding>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                           </padding></GridPane>
-                     </content>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </ScrollPane>
-               </children>
-            </HBox>
          </children>
       </VBox>
    </center>

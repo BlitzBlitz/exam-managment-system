@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox fx:id="messageContainer" alignment="CENTER" minWidth="290.0" prefHeight="55.0" prefWidth="290.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.MessageLabelController">
+      <children>
+
+          <Label fx:id="messageLabel" alignment="CENTER_RIGHT" contentDisplay="CENTER" wrapText="true">
+         <padding>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </padding></Label>
+      </children>
+   <padding>
+      <Insets bottom="15.0" />
+   </padding>
+   </HBox>

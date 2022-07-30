@@ -24,6 +24,7 @@ public class AdminRepository {
                 admin.setEmail(results.getString("email"));
                 admin.setPassword(results.getString("password"));
             }
+            statement.close();
         }catch (SQLException e){
             System.out.println(e.getMessage());
         }

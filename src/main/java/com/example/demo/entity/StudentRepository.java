@@ -15,8 +15,6 @@ public class StudentRepository {
         statement.close();
     }
 
-
-
     public static void insertStudent(Student student) throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
         statement.execute("INSERT INTO student(email, password, name, lastname, phone) VALUES ( '"

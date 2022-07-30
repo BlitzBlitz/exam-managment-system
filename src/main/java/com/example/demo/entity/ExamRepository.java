@@ -33,6 +33,23 @@ public class ExamRepository {
         return exams;
     }
 
+    public static  ArrayList<Exam> getAllUndoneExamsForCourse(int courseId, int studentId) throws SQLException {
+        Statement statement = DbConnection.getConnection().createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT exam.id, exam.title, exam.course_id FROM exam" +
+                " JOIN course ON course.id = exam.course_id LEFT OUTER JOIN result on result.exam_id = exam.id " +
+                "WHERE course.id = "+courseId+" AND result.student_id is not " + studentId);
+        ArrayList<Exam> exams = new ArrayList<>();
+        while (resultSet.next()){
+            Exam exam = new Exam();
+            exam.setId(resultSet.getInt("id"));
+            exam.setTitle(resultSet.getString("title"));
+            exam.setCourse_id(resultSet.getInt("course_id"));
+            exams.add(exam);
+        }
+        statement.close();
+        return exams;
+    }
+
     public static  ArrayList<Question> getQuestionForExam(Exam exam) throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM question WHERE exam_id =" + exam.getId());
@@ -52,14 +69,6 @@ public class ExamRepository {
     public static void insertExam(Exam exam) throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
         statement.execute("INSERT INTO exam(title, course_id) VALUES ( '"  + exam.getTitle() + "', '"  + exam.getCourse_id() +  "' )");
-        ResultSet resultSet = statement.executeQuery("SELECT id from exam ORDER BY id DESC LIMIT 1");
-        int id = -1;
-        id = resultSet.getInt("id");
-        if(id != -1){
-            exam.setId(id);
-        }else {
-            throw new SQLException("Question insertion went wrong!");
-        }
         statement.close();
     }
 
