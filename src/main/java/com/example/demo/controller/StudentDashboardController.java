@@ -63,6 +63,7 @@ public class StudentDashboardController {
 
     public ChatController switchToChatUI() throws IOException, SQLException {
         if(totalUnreadMessages > 0){
+            totalUnreadMessages = 0;
             messageButtonContainer.getChildren().remove(messageButtonContainer.getChildren().get(1));
         }
         dashArea.getChildren().remove(dashContent);

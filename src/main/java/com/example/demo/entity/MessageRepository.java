@@ -108,6 +108,7 @@ public class MessageRepository {
                 loggedInUser.getId()+" AND sender_type is not '" + receiverType + "' AND read = false");
         unread = result.getInt("total_unread");
         statement.close();
+        System.out.println(unread);
         return unread;
     }
 }
